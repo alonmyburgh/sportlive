@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: countries-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: countries-mongo
+  template:
+    metadata:
+      labels:
+        app: countries-mongo
+    spec:
+      containers:
+        - name: countries-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: countries-mongo-srv
+spec:
+  selector:
+    app: countries-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

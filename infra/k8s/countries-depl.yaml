@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: countries-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: countries
+  template:
+    metadata:
+      labels:
+        app: countries
+    spec:
+      containers:
+        - name: countries
+          image: alonmyburgh/countries
+          env:
+            - name: MONGO_URI
+              value: 'mongodb://countries-mongo-srv:27017/countries'
+            - name: NODE_ENV
+              value: 'production'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: countries-srv
+spec:
+  selector:
+    app: countries
+  ports:
+    - name: countries
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
