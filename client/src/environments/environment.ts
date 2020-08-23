@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  fixturesBaseUrl: 'http://localhost:3001', // Dev local
-  // fixturesBaseUrl: '' // Dev K8S
+  fixturesBaseUrl: ''
 };
 
 /*
