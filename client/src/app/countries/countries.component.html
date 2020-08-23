@@ -1,3 +1,49 @@
-<p>
-  countries works!
-</p>
+<!-- Card -->
+<div class="card card-image theme-dark">
+  <!-- Content -->
+  <div class="py-5 px-4">    
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10 col-xl-8">
+        <!--Accordion wrapper-->
+        <div class="accordion md-accordion accordion-5">
+          <!-- Accordion card -->
+          <div class="card wrapper" *ngFor="let country of countries">
+            <!-- Card header -->
+            <div class="card-header p-0 z-depth-1 c-h" (click)="toggle(country.code)">
+              <a role="button">
+                <img src="{{country.flag}}" alt="{{country.country}}" class="mr-2" />
+                <label class="country-label">{{country.country}}
+                  <svg *ngIf="!country.isExpand" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down float-right mt-2 arrow-color" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                  <svg *ngIf="country.isExpand" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-up float-right mt-2 arrow-color" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                  </svg>
+                  <label class="float-right mr-4 arrow-color">
+                    <span *ngIf="country.liveMatchCount>0" class="red-highlight">{{country.liveMatchCount}}</span>
+                    <span *ngIf="country.liveMatchCount>0">/</span>
+                    <span>{{country.matchCount}}</span>
+                  </label>
+                </label>
+              </a>
+            </div>
+            <!-- Card body -->
+            <div [ngClass]="{ show: country.isExpand, collapse: !country.isExpand }">
+              <div class="card-body rgba-black-light white-text z-depth-1">
+                <p class="p-md-4 mb-0">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+                  terry richardson ad squid. 3 wolf moon officia aute,
+                  non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch
+                  3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                  shoreditch et.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Accordion card -->
+        </div>
+        <!--/.Accordion wrapper-->
+      </div>
+    </div>
+  </div>
+  <!-- Content -->
+</div>
+<!-- Card -->

@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { Country } from "../models/country";
 import axios from "axios";
 import moment from "moment";
-import dotenv from 'dotenv';
 
 const router = express.Router();
 

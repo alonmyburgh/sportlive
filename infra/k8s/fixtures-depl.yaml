@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fixtures-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fixtures
+  template:
+    metadata:
+      labels:
+        app: fixtures
+    spec:
+      containers:
+        - name: fixtures
+          image: alonmyburgh/fixtures
+          env:
+            - name: MONGO_URI
+              value: 'mongodb://fixtures-mongo-srv:27017/fixtures'
+            - name: NODE_ENV
+              value: 'production'
+            - name: RAPIDAPI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rapid-secret
+                  key: RAPIDAPI_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fixtures-srv
+spec:
+  selector:
+    app: fixtures
+  ports:
+    - name: fixtures
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

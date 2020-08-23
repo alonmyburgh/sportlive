@@ -14,6 +14,14 @@ spec:
             backend:
               serviceName: countries-srv
               servicePort: 3000
+          - path: /api/leagues/?(.*)
+            backend:
+              serviceName: leagues-srv
+              servicePort: 3002
+          - path: /api/fixturesbydate/?(.*)
+            backend:
+              serviceName: fixtures-srv
+              servicePort: 3001
           - path: /?(.*)
             backend:
               serviceName: client-srv

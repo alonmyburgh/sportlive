@@ -1,0 +1,38 @@
+.theme-dark {
+  background-color: #3c3c3c;
+  border: none;
+}
+
+.arrow-color {
+  color: #636262;
+}
+
+.c-h {
+  background-color: #1a374e;
+  cursor: pointer;
+}
+
+.country-label {
+  width: 87%;
+  color: white;
+  cursor: pointer;
+}
+
+img {
+  max-height: 40px;
+}
+
+.country-text {
+  color: white;
+}
+
+.wrapper {
+  border-radius: 0rem;
+  border-left: none;
+  border-right: none;
+  border-color: #5d5d5d;
+}
+
+.red-highlight {
+  color: red;
+}

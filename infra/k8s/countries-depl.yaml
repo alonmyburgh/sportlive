@@ -20,6 +20,11 @@ spec:
               value: 'mongodb://countries-mongo-srv:27017/countries'
             - name: NODE_ENV
               value: 'production'
+            - name: RAPIDAPI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rapid-secret
+                  key: RAPIDAPI_KEY
 ---
 apiVersion: v1
 kind: Service

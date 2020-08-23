@@ -13,26 +13,15 @@ const start = async () => {
     throw new Error("RAPIDAPI_KEY must be defined");
   }
 
-  if (process.env.NODE_ENV !== "production") {
-    mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
-    const db = mongoose.connection;
-    db.once("open", (_) => {
-      console.log("Database connected");
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
     });
-
-    db.on("error", (err) => {
-      console.error("connection error:", err);
-    });
-  } else {
-    try {
-      await mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    console.log("Database connected");
+  } catch (err) {
+    console.error("connection error:", err);
   }
 
   app.listen(3000, () => {

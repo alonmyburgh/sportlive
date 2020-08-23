@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leagues-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: leagues-mongo
+  template:
+    metadata:
+      labels:
+        app: leagues-mongo
+    spec:
+      containers:
+        - name: leagues-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: leagues-mongo-srv
+spec:
+  selector:
+    app: leagues-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
