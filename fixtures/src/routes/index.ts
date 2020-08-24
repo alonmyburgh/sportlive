@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { Fixture } from "../models/fixture";
-import { parseFixtures } from "./fixture-parser";
+import { parseFixtures } from "../helpers/fixture-parser";
 import { CountriesObj, LeaguesObj } from "../models/fixture-interface";
 import moment from "moment";
 import { getCountriesFromService } from "../service/countries-service";
@@ -55,7 +55,7 @@ router.post("/api/fixturesbydate", async (req: Request, res: Response) => {
     return res.status(500);
   }
 
-  const r = parseFixtures(fixtures, countries, leagues);
+  const r = parseFixtures(fixtures[0], countries, leagues);
 
   return res.send(r);
 });

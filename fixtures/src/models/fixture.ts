@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+import { DbFixture } from "./fixture-interface";
 
 interface FixtureAttrs {
   fixtureDate: string;
-  fixtures: [any];  
+  fixtures: DbFixture[];  
   lastUpdate: Date;
 }
 
 interface FixtureDoc extends mongoose.Document {
   fixtureDate: string;
-  fixtures: [any];  
+  fixtures: DbFixture[];  
   lastUpdate: Date;
   version: number;
 }

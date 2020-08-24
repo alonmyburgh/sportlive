@@ -22,6 +22,9 @@ export const getFixturesFromAPI = async (date: moment.Moment) => {
       );
   
       const jsonArray = rsp.data.api.fixtures;
+      jsonArray.forEach(a => {
+        a.country = a.league.country;
+      });
       let dbType = Fixture.build({
         fixtureDate: date.format("YYYY-MM-DD"),
         fixtures: jsonArray,

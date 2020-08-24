@@ -15,7 +15,7 @@ router.get("/api/leagues", async (req: Request, res: Response) => {
     return res.send(apiLeagues);
   }
 
-  if (moment(new Date()).diff(moment(leagues[0].lastUpdate), "months") > 1) {
+  if (moment(new Date()).diff(moment(leagues[0].lastUpdate), "days") > 1) {
     await League.deleteMany({});
     await getLeaguesFromAPI();
     const apiLeagues = await League.find({});
