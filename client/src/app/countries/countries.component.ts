@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgxSpinnerService } from "ngx-spinner";
 import { CountryService } from './country.service';
 import { CountriesResponse } from './country.model';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +19,8 @@ export class CountriesComponent implements OnInit, OnDestroy {
 
   constructor(
     private countryService: CountryService,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnDestroy(): void {
     this.dateSubsc.unsubscribe();
@@ -28,8 +30,10 @@ export class CountriesComponent implements OnInit, OnDestroy {
     this.countries = this.countryService.getCountries();
 
     this.dateSubsc = this.countryService.dateChanged.subscribe((date) => {
+      this.spinner.show();
       this.dataStorageService.fetchCountries().subscribe((c) => {
         this.countries = c;
+        this.spinner.hide();
       });
     });
   }
