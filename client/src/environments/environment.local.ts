@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    fixturesBaseUrl: 'http://localhost:3001'
+    fixturesServiceBaseUrl: 'http://localhost:3001'
   };
   
   /*

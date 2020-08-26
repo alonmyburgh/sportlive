@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { DbFixture } from "./fixture-interface";
+import { CountriesResponse } from "./fixtures-response";
 
 interface FixtureAttrs {
   fixtureDate: string;
-  fixtures: DbFixture[];  
+  fixtures: CountriesResponse[];
   lastUpdate: Date;
 }
 
 interface FixtureDoc extends mongoose.Document {
   fixtureDate: string;
-  fixtures: DbFixture[];  
+  fixtures: CountriesResponse[];
   lastUpdate: Date;
   version: number;
 }
@@ -27,7 +27,10 @@ const fixtureSchema = new mongoose.Schema(
     },
     fixtures: {
       type: Array,
-      default: []
+      default: [],
+    },
+    leagueId: {
+      type: Number,
     },
     lastUpdate: {
       type: mongoose.Schema.Types.Date,

@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { CountriesResponse } from './country.model';
+import { Subject, Observable } from 'rxjs';
+import {
+  CountriesResponse,
+  LeaguesByIdRequest,
+  LeaguesResponse,
+} from './country.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CountryService {
   countriesChanged = new Subject<CountriesResponse[]>();
   dateChanged = new Subject<Date>();
+  baseUrl = environment.fixturesServiceBaseUrl;
 
   private countries: CountriesResponse[] = [];
   private date: Date = new Date();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   setCountries(countries: CountriesResponse[]): void {
     this.countries = countries;
@@ -28,5 +35,12 @@ export class CountryService {
 
   getDate(): Date {
     return this.date;
+  }
+
+  getLeaguesById = (req: LeaguesByIdRequest): Observable<LeaguesResponse[]> => {
+    return this.http.post<LeaguesResponse[]>(
+      this.baseUrl + '/api/fixtures',
+      req
+    );
   }
 }

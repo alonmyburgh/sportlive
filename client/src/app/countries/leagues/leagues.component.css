@@ -1,0 +1,17 @@
+.card-style {
+    border: none;
+    background-color: #1a374e;
+    margin: 0rem 0rem 2rem 0rem;
+}
+
+img {
+    max-height: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    min-width: 40px;
+  }
+
+  .league-label {
+    color: #636262;
+    cursor: pointer;
+  }

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
-  baseUrl = environment.fixturesBaseUrl;
+  baseUrl = environment.fixturesServiceBaseUrl;
 
   constructor(
     private http: HttpClient,
@@ -18,13 +18,13 @@ export class DataStorageService {
 
   fetchCountries(): Observable<CountriesResponse[]> {
     return this.http
-      .post<Fixtures>(this.baseUrl + '/api/fixturesbydate', {
+      .post<CountriesResponse[]>(this.baseUrl + '/api/fixturesbydate', {
         date: this.countryService.getDate(),
       })
       .pipe(
-        map((countries: Fixtures) => {
-          return countries && countries.countries
-            ? countries.countries.map((country) => {
+        map((countries: CountriesResponse[]) => {
+          return countries
+            ? countries.map((country) => {
                 return {
                   ...country,
                 };

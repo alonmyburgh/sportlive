@@ -13,12 +13,12 @@ spec:
           - path: /api/countries/?(.*)
             backend:
               serviceName: countries-srv
-              servicePort: 3000
-          - path: /api/leagues/?(.*)
-            backend:
-              serviceName: leagues-srv
-              servicePort: 3002
+              servicePort: 3000          
           - path: /api/fixturesbydate/?(.*)
+            backend:
+              serviceName: fixtures-srv
+              servicePort: 3001
+          - path: /api/fixture/?(.*)
             backend:
               serviceName: fixtures-srv
               servicePort: 3001

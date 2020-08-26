@@ -16,14 +16,6 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: alonmyburgh/leagues
-      context: leagues
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
     - image: alonmyburgh/fixtures
       context: fixtures
       docker:

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fixtures-redis-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fixtures-redis
+  template:
+    metadata:
+      labels:
+        app: fixtures-redis
+    spec:
+      containers:
+        - name: fixtures-redis
+          image: redis
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fixtures-redis-srv
+spec:
+  selector:
+    app: fixtures-redis
+  ports:
+    - name: db
+      protocol: TCP
+      port: 6379
+      targetPort: 6379

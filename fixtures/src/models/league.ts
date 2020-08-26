@@ -1,34 +1,31 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+import { FixturesResponse } from "./fixtures-response";
 
 interface LeagueAttrs {
   leagueId: number;
   name: string;
-  type: string;
-  country: string;
-  countryCode: string;
-  season: number;
-  seasonStart: Date;
-  seasonEnd: Date;
+  type?: string;
+  season?: number;
+  seasonStart?: Date;
+  seasonEnd?: Date;
   logo: string;
-  flag: string;
-  isCurrent: boolean;
-  lastUpdate: Date;  
+  fixtures: FixturesResponse[];
+  fixtureDate: string;
+  lastUpdate: Date;
 }
 
 interface LeagueDoc extends mongoose.Document {
   leagueId: number;
   name: string;
-  type: string;
-  country: string;
-  countryCode: string;
-  season: number;
-  seasonStart: Date;
-  seasonEnd: Date;
+  type?: string;
+  season?: number;
+  seasonStart?: Date;
+  seasonEnd?: Date;
   logo: string;
-  flag: string;
-  isCurrent: boolean;
-  lastUpdate: Date;  
+  fixtures: FixturesResponse[];
+  fixtureDate: string;
+  lastUpdate: Date;
   version: number;
 }
 
@@ -42,38 +39,32 @@ const leagueSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    fixtures: {
+      type: Array,
+      default: [],
+    },
     name: {
       type: String,
       required: true,
     },
+    fixtureDate: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+    },
     type: {
       type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    countryCode: {
-      type: String,      
     },
     season: {
-      type: Number,      
+      type: Number,
     },
     seasonStart: {
       type: mongoose.Schema.Types.Date,
     },
     seasonEnd: {
       type: mongoose.Schema.Types.Date,
-    },
-    logo: {
-      type: String,      
-    },
-    flag: {
-      type: String,      
-    },
-    isCurrent: {
-      type: Boolean,      
     },
     lastUpdate: {
       type: mongoose.Schema.Types.Date,
@@ -95,9 +86,6 @@ leagueSchema.statics.build = (attrs: LeagueAttrs) => {
   return new League(attrs);
 };
 
-const League = mongoose.model<LeagueDoc, LeagueModel>(
-  "League",
-  leagueSchema
-);
+const League = mongoose.model<LeagueDoc, LeagueModel>("League", leagueSchema);
 
 export { League };

@@ -13,7 +13,7 @@
 }
 
 .country-label {
-  width: 87%;
+  width: 85%;
   color: white;
   cursor: pointer;
   margin: 0;
@@ -37,4 +37,17 @@ img {
 
 .red-highlight {
   color: red;
+}
+
+.card-body {
+  background-color: #1a374e;  
+}
+
+.box-container {
+  padding: 1.25rem 1rem;
+}
+
+.loading-spinner {
+  width: 1rem;
+  height: 1rem;
 }

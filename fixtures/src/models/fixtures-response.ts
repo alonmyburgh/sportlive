@@ -2,27 +2,31 @@ export class Fixtures {
   countries: CountriesResponse[] = [];
 }
 
-interface CountriesResponse {
+export interface CountriesResponse {
   country: string;
   code: string;
-  flag: string;
-  leagues: LeaguesResponse[];
+  flag: string;  
+  leagues: LeaguesLight[];
   matchCount: number;
-  liveMatchCount: number;
+  liveMatchCount: number;  
 }
 
-interface LeaguesResponse {
+interface LeaguesLight {
+  leagueId: number;
+}
+
+export interface LeaguesResponse {
   leagueId: number;
   name: string;
-  type: string;
-  season: number;
-  seasonStart: Date;
-  seasonEnd: Date;
+  type?: string;
+  season?: number;
+  seasonStart?: Date;
+  seasonEnd?: Date;
   logo: string;
   fixtures: FixturesResponse[];
 }
 
-interface FixturesResponse {
+export interface FixturesResponse {
   fixtureId: number;
   eventDate: Date;
   eventTimestamp: Date;
