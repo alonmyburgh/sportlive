@@ -9,8 +9,8 @@ const start = async () => {
     throw new Error("MONGO_URI must be defined");
   }
 
-  if (!process.env.RAPIDAPI_KEY) {
-    throw new Error("RAPIDAPI_KEY must be defined");
+  if (!process.env.API_KEY) {
+    throw new Error("API_KEY must be defined");
   }
 
   try {

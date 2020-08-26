@@ -29,13 +29,12 @@ router.get("/api/countries", async (req: Request, res: Response) => {
 const getCountriesFromAPI = async () => {
   try {
     const rsp: CountriesObj = await axios.get(
-      "https://api-football-v1.p.rapidapi.com/v2/countries",
+      "https://v2.api-football.com/countries",
       {
         headers: {
           "content-type": "application/octet-stream",
-          "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
           "x-rapidapi-key":
-          process.env.RAPIDAPI_KEY,
+          process.env.API_KEY,
           useQueryString: true,
         },
       }
