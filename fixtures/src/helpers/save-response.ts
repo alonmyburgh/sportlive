@@ -5,10 +5,10 @@ import { Fixture } from "../models/fixture";
 
 export const saveResponse = async (
   rsp: DbFixture[],
-  countries: CountriesObj,
+  countries: CountriesObj[],
   date: moment.Moment
 ) => {
-  let countriesDict = countries.data.reduce(
+  let countriesDict = countries.reduce(
     (a, x) => ({ ...a, [x.country]: x }),
     {}
   );

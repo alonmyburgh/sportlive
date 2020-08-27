@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { Fixture } from "../models/fixture";
 import moment from "moment";
-import { getCountriesFromService } from "../service/countries-service";
+import { getCountriesFromService, getCountriesFromDb } from "../service/countries-service";
 import { getFixturesFromAPI } from "../service/api-service";
 import { saveResponse } from "../helpers/save-response";
 import { getIsToday } from "../helpers/today-date";
@@ -40,14 +40,19 @@ router.post("/api/fixturesbydate", async (req: Request, res: Response) => {
 });
 
 const getFixturesLogic = async (d: moment.Moment) => {
-  const countries = await getCountriesFromService();
-  if (countries === undefined) {
+  let countries = await getCountriesFromDb();
+
+  if(countries === undefined || countries.length == 0) {
+    countries = await getCountriesFromService();    
+  }
+
+  if (countries === undefined || countries.length == 0) {
     return null;
   }
 
   const rsp = await getFixturesFromAPI(d);
 
-  if (rsp === undefined) {
+  if (rsp === undefined || rsp.length == 0) {
     return null;
   }
 

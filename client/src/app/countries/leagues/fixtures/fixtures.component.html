@@ -1,3 +1,20 @@
-<p>
-  fixtures works!
-</p>
+<div *ngFor="let fixture of fixtures">
+  <table class="strech">
+    <tr>
+      <td style="width: 10%">
+        <label>{{ fixture.eventDate | date: "hh:mm" }}</label>
+        <label>{{
+          fixture.elapsed | matchtime: fixture.statusShort:fixture.eventDate
+        }}</label>
+      </td>
+      <td style="width: 80%; border-left: 1px solid white; border-right: 1px solid white;">
+        <div>
+          <div>{{fixture.homeTeam.teamName}}</div>
+          <div>{{fixture.awayTeam.teamName}}</div>
+        </div>
+      </td>
+      <td style="width: 10%"></td>
+    </tr>
+  </table>
+
+</div>

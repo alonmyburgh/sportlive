@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import dotenv from "dotenv";
+import { natsWrapper } from "./nats-wrapper";
 
 const start = async () => {
   dotenv.config();
@@ -13,6 +14,16 @@ const start = async () => {
     throw new Error("API_KEY must be defined");
   }
 
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error("NATS_CLIENT_ID must be defined");
+  }
+  if (!process.env.NATS_URL) {
+    throw new Error("NATS_URL must be defined");
+  }
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error("NATS_CLUSTER_ID must be defined");
+  }
+
   try {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
@@ -22,6 +33,22 @@ const start = async () => {
     console.log("Database connected");
   } catch (err) {
     console.error("connection error:", err);
+  }
+
+  try {
+    await natsWrapper.connect(
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
+    );
+    natsWrapper.client.on("close", () => {
+      console.log("NATS connection closed!");
+      process.exit();
+    });
+    process.on("SIGINT", () => natsWrapper.client.close());
+    process.on("SIGTERM", () => natsWrapper.client.close());    
+  } catch (err) {
+    console.log(err);
   }
 
   app.listen(3000, () => {

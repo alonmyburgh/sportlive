@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { Country } from "../models/country";
 import axios from "axios";
 import moment from "moment";
+import { CountriesUpdatedPublisher } from "../events/publishers/countries-updated-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -11,6 +13,8 @@ router.get("/api/countries", async (req: Request, res: Response) => {
   if (!countries || countries.length == 0) {
     await getCountriesFromAPI();
     const apiCountries = await Country.find({});
+    
+    await new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
 
     return res.send(apiCountries);
   }
@@ -20,8 +24,12 @@ router.get("/api/countries", async (req: Request, res: Response) => {
     await getCountriesFromAPI();
     const apiCountries = await Country.find({});
 
+    await new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
+
     return res.send(apiCountries);
   }
+
+  await new CountriesUpdatedPublisher(natsWrapper.client).publish(countries);
 
   res.send(countries);
 });

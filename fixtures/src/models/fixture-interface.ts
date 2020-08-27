@@ -1,12 +1,8 @@
 export interface CountriesObj {
-  data: [
-    {
-      country: string;
-      code: string;
-      flag: string;
-      lastUpdate: Date;
-    }
-  ];
+  country: string;
+  code: string;
+  flag: string;
+  lastUpdate: Date;
 }
 
 export interface LeaguesObj {
