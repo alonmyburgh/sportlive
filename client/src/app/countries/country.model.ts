@@ -56,5 +56,6 @@ interface FixtureTeam {
 
 export class LeaguesByIdRequest {
   leagueIds: string;
-  date: Date;
+  date: string;
+  countryCode: string;
 }

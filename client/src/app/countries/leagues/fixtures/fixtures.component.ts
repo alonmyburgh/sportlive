@@ -12,4 +12,10 @@ export class FixturesComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  isToday = (date: string) => {
+    const today = new Date();
+    const d = new Date(date);
+    return today.setHours(0, 0, 0, 0) === d.setHours(0, 0, 0, 0);
+  }
 }

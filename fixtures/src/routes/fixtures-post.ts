@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import moment from "moment";
 import { redisWrapper } from "../redis-wrapper";
 import { getIsToday } from "../helpers/today-date";
 import { getLeagueIdAndDateRedisKey } from "../helpers/generate-redis-key";
@@ -11,20 +10,19 @@ const router = express.Router();
 
 router.post("/api/fixtures", async (req: Request, res: Response) => {
   const { leagueIds, date } = req.body;
-  let response: LeaguesResponse[] = [];
-  const d = moment(date).utc().set({ hour: 0, minute: 0, second: 0 });
-  const isTodayDate: boolean = getIsToday(d);
+  let response: LeaguesResponse[] = [];  
+  const isTodayDate: boolean = getIsToday(date);
   const leagueIdArray: string[] = leagueIds.split(",");
 
   for (const leagueId of leagueIdArray) {
-    let REDIS_KEY = getLeagueIdAndDateRedisKey(d, leagueId);
+    let REDIS_KEY = getLeagueIdAndDateRedisKey(date, leagueId);
     const value: string = await redisWrapper.client.get(REDIS_KEY);
 
     if (value && value !== null) {
       response.push(JSON.parse(value));
     } else {
       if (isTodayDate) {
-        let apiRsp = await getFixturesByLeagueId(leagueId, d);
+        let apiRsp = await getFixturesByLeagueId(leagueId, date);
         if (apiRsp !== undefined && apiRsp.length > 0) {
           let struct: LeaguesResponse = {
             leagueId: apiRsp[0].league_id,
@@ -74,7 +72,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
       } else {
         let league = await League.findOne({
           leagueId: Number(leagueId),
-          fixtureDate: d.format("YYYY-MM-DD"),
+          fixtureDate: date,
         });
 
         if (league && league !== null) {
@@ -98,7 +96,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
 
           response.push(struct);
         } else {
-          let apiRsp = await getFixturesByLeagueId(leagueId, d);
+          let apiRsp = await getFixturesByLeagueId(leagueId, date);
           if (apiRsp !== undefined && apiRsp.length > 0) {
             let struct: LeaguesResponse = {
               leagueId: apiRsp[0].league_id,
@@ -137,7 +135,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
             };
 
             let dbType = League.build({
-              fixtureDate: d.format("YYYY-MM-DD"),
+              fixtureDate: date,
               fixtures: struct.fixtures,
               leagueId: struct.leagueId,
               logo: struct.logo,

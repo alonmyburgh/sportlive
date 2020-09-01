@@ -6,7 +6,7 @@ import { Fixture } from "../models/fixture";
 export const saveResponse = async (
   rsp: DbFixture[],
   countries: CountriesObj[],
-  date: moment.Moment
+  date: string
 ) => {
   let countriesDict = countries.reduce(
     (a, x) => ({ ...a, [x.country]: x }),
@@ -45,7 +45,7 @@ export const saveResponse = async (
   });
 
   let dbType = Fixture.build({
-    fixtureDate: date.format("YYYY-MM-DD"),
+    fixtureDate: date,
     fixtures: r,
     lastUpdate: new Date(),
   });

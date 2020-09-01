@@ -1,20 +1,45 @@
-<div *ngFor="let fixture of fixtures">
-  <table class="strech">
-    <tr>
-      <td style="width: 10%">
-        <label>{{ fixture.eventDate | date: "hh:mm" }}</label>
-        <label>{{
-          fixture.elapsed | matchtime: fixture.statusShort:fixture.eventDate
-        }}</label>
+<div *ngFor="let fixture of fixtures" class="fixture-container">
+  <table class="strech table-font">
+    <tr class="table-row">
+      <td class="timing-date-col">
+        <div *ngIf="isToday(fixture.eventDate)" class="ml-1">
+          <label>{{ fixture.eventDate | date: "HH:mm" }}</label>
+        </div>
+        <div *ngIf="!isToday(fixture.eventDate)" class="ml-1">
+          <label>{{ fixture.eventDate | date: "dd MMM" }}</label>
+        </div>
+        <div class="timing-desc">
+          <label
+            [ngClass]="{
+              red:
+                fixture.statusShort === '1H' ||
+                fixture.statusShort === '2H' ||
+                fixture.statusShort === 'ET' ||
+                fixture.statusShort === 'P'
+            }"
+            >{{
+              fixture.elapsed | matchtime: fixture.statusShort:fixture.eventDate
+            }}</label
+          >
+        </div>
       </td>
-      <td style="width: 80%; border-left: 1px solid white; border-right: 1px solid white;">
-        <div>
-          <div>{{fixture.homeTeam.teamName}}</div>
-          <div>{{fixture.awayTeam.teamName}}</div>
+      <td class="fixture-result-col">
+        <div class="team-text">
+          <div [ngClass]="{teamTextGrey: fixture.statusShort === 'FT' && fixture.goalsAwayTeam >= fixture.goalsHomeTeam}">
+            <span>{{ fixture.homeTeam.teamName }}</span>
+            <span class="pull-right">{{
+              fixture.score | scoreline: true
+            }}</span>
+          </div>
+          <div [ngClass]="{teamTextGrey: fixture.statusShort === 'FT' && fixture.goalsAwayTeam <= fixture.goalsHomeTeam}">
+            <span>{{ fixture.awayTeam.teamName }}</span>
+            <span class="pull-right">{{
+              fixture.score | scoreline: false
+            }}</span>
+          </div>
         </div>
       </td>
       <td style="width: 10%"></td>
     </tr>
   </table>
-
 </div>

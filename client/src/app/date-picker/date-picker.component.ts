@@ -14,6 +14,16 @@ export class DatePickerComponent implements OnInit {
 
   onValueChange(value: Date): void {
     this.bsValue = value;
-    this.countryService.setDate(this.bsValue);
+    this.countryService.setDate(
+      `${this.bsValue.getFullYear()}-${
+        this.bsValue.getMonth() + 1 > 9
+          ? this.bsValue.getMonth() + 1
+          : '0' + Number(this.bsValue.getMonth() + 1)
+      }-${
+        this.bsValue.getDate() > 9
+          ? this.bsValue.getDate()
+          : '0' + this.bsValue.getDate()
+      }`
+    );
   }
 }

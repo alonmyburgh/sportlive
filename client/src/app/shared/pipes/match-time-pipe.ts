@@ -8,9 +8,25 @@ export class MatchTimePipe implements PipeTransform {
      if (statusShort === '1H' || statusShort === '2H' || statusShort === 'ET') {
        return elapsed + '\'';
      }
+     if (statusShort === 'PST') {
+       return 'Postponed';
+     }
+     if (statusShort === 'CANC') {
+      return 'Cancelled';
+    }
      if (statusShort === 'NS') {
-         return moment(eventDate).format('HH:mm');
+       if(this.isToday(eventDate)) {
+        return '';
+       } else {
+        return moment(eventDate).format('HH:mm');
+       }
      }
      return statusShort;
    }
+
+   isToday = (date: Date) => {
+    const today = moment(new Date());
+    const d = moment(date);
+    return today.format('YYYY-MM-DD') === d.format('YYYY-MM-DD');
+  }
 }

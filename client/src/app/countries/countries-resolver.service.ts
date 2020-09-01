@@ -8,7 +8,8 @@ import {
 import { CountriesResponse } from './country.model';
 import { DataStorageService } from '../shared/data-storage.service';
 import { CountryService } from './country.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CountriesResolverService implements Resolve<CountriesResponse[]> {
@@ -24,7 +25,12 @@ export class CountriesResolverService implements Resolve<CountriesResponse[]> {
     const countries = this.countriesService.getCountries();
 
     if (countries.length === 0) {
-      return this.dataStorageService.fetchCountries();
+      return this.dataStorageService.fetchCountries().pipe(
+        catchError((error) => {
+          this.countriesService.setError(true);
+          return of(null);
+        })
+      );
     } else {
       return countries;
     }

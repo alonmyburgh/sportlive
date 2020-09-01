@@ -1,6 +1,6 @@
 export const getLeagueIdAndDateRedisKey = (
-  d: moment.Moment,
+  d: string,
   leagueId: string
 ) => {
-  return `LeagueIdAndDateRedisKey_${d.format("YYYY-MM-DD") + leagueId}`;
+  return `LeagueIdAndDateRedisKey_${d + leagueId}`;
 };

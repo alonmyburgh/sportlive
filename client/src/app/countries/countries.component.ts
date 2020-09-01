@@ -9,7 +9,7 @@ import {
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
-import { elementAt } from 'rxjs/operators';
+import { LeagueService } from './leagues/league.service';
 
 @Component({
   selector: 'app-countries',
@@ -19,31 +19,60 @@ import { elementAt } from 'rxjs/operators';
 export class CountriesComponent implements OnInit, OnDestroy {
   countries: CountriesResponse[];
   leagues: LeaguesResponse[];
+  isShowError: boolean;
   faChevronUp = faChevronUp;
   faChevronDown = faChevronDown;
   dateSubsc = new Subscription();
   leaguesSubsc = new Subscription();
+  errorSubsc = new Subscription();
 
   constructor(
     private countryService: CountryService,
     private dataStorageService: DataStorageService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private leagueService: LeagueService
   ) {}
   ngOnDestroy(): void {
     this.dateSubsc.unsubscribe();
     this.leaguesSubsc.unsubscribe();
+    this.errorSubsc.unsubscribe();
   }
 
   ngOnInit(): void {
     this.countries = this.countryService.getCountries();
 
+    this.leaguesSubsc = this.leagueService.leagueLoaded.subscribe(
+      (countryCode) => {
+        this.countries.forEach((element) => {
+          if (element.code === countryCode) {
+            element.isLoading = false;
+          }
+        });
+      }
+    );
+
     this.dateSubsc = this.countryService.dateChanged.subscribe((date) => {
       this.spinner.show();
-      this.dataStorageService.fetchCountries().subscribe((c) => {
-        this.countries = c;
-        this.spinner.hide();
-      });
+      this.dataStorageService.fetchCountries().subscribe(
+        (c) => {
+          this.countries = c;
+          this.countryService.setError(false);
+          this.spinner.hide();
+        },
+        (err) => {
+          console.log(err);
+          this.countries = [];
+          this.countryService.setError(true);
+          this.spinner.hide();
+        }
+      );
     });
+
+    this.errorSubsc = this.countryService.errorChanged.subscribe((error) => {
+      this.isShowError = error;
+    });
+
+    this.isShowError = this.countryService.getError();
   }
 
   toggle = (countryCode: string) => {
@@ -52,28 +81,21 @@ export class CountriesComponent implements OnInit, OnDestroy {
         if (!element.isExpand) {
           element.isLoading = true;
           const req = this.createLeagueByIdRequest(element);
-          this.leaguesSubsc = this.countryService
-            .getLeaguesById(req)
-            .subscribe((rsp) => {
-              this.leagues = rsp;
-              element.isLoading = false;
-              element.isExpand = !element.isExpand;
-            }, err => {
-              element.isLoading = false;
-              console.log(err);
-            });
+          this.leagueService.setLeaguesByIdRequest(req);
+          element.isExpand = !element.isExpand;
         } else {
           element.isExpand = !element.isExpand;
         }
       }
     });
-  }
+  };
 
   createLeagueByIdRequest = (
     element: CountriesResponse
   ): LeaguesByIdRequest => {
     const req = new LeaguesByIdRequest();
     req.date = this.countryService.getDate();
+    req.countryCode = element.code;
     req.leagueIds = element.leagues
       .map((league) => {
         return league.leagueId;

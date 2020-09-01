@@ -1,11 +1,11 @@
 import moment from "moment";
 
-export const getIsToday = (d: moment.Moment): boolean => {
-  const now = moment(new Date()).utc().set({ hour: 0, minute: 0, second: 0 });
+export const getIsToday = (d: string): boolean => {
+  const now = moment(new Date()).utc().format('YYYY-MM-DD');
 
-  if (d.diff(now, "hours") > 22 || d.diff(now, "hours") < 0) {
-    return false;
+  if (now === d) {
+    return true;
   }
 
-  return true;
+  return false;
 };

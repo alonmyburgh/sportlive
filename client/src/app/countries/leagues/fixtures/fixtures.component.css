@@ -1,8 +1,56 @@
 .vl {
-    border-left: 6px solid green;
+  border-left: 6px solid green;
   height: 50px;
 }
 
 .strech {
-    width: 100%;
+  width: 100%;
+}
+
+.red {
+  color: red;
+}
+
+.table-font {
+  font-size: 0.85rem;
+}
+
+.fixture-container {
+  margin-bottom: 1rem;
+}
+
+.table-row {
+  line-height: 16px;
+}
+
+.timing-date-col {
+  width: 8.5%;
+  color: #888888;
+  vertical-align: top;
+}
+
+.timing-desc {
+  line-height: 2px;
+  font-size: 10px;
+  text-align: center;
+  width: 80%;
+}
+
+.fixture-result-col {
+  width: 80%;
+  border-left: 1px solid #888888;
+  border-right: 1px solid #888888;
+}
+
+.team-text {
+  margin: 0rem 0.5rem;
+  color: white;
+}
+
+.pull-right {
+  float: right;
+}
+
+.teamTextGrey {
+  color: #888888;
 }

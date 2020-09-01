@@ -14,7 +14,7 @@ router.get("/api/countries", async (req: Request, res: Response) => {
     await getCountriesFromAPI();
     const apiCountries = await Country.find({});
     
-    await new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
+    new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
 
     return res.send(apiCountries);
   }
@@ -24,12 +24,12 @@ router.get("/api/countries", async (req: Request, res: Response) => {
     await getCountriesFromAPI();
     const apiCountries = await Country.find({});
 
-    await new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
+    new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
 
     return res.send(apiCountries);
   }
 
-  await new CountriesUpdatedPublisher(natsWrapper.client).publish(countries);
+  new CountriesUpdatedPublisher(natsWrapper.client).publish(countries);
 
   res.send(countries);
 });

@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import {
-  CountriesResponse,
-  LeaguesByIdRequest,
-  LeaguesResponse,
-} from './country.model';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { Subject } from 'rxjs';
+import { CountriesResponse } from './country.model';
 
 @Injectable()
 export class CountryService {
   countriesChanged = new Subject<CountriesResponse[]>();
-  dateChanged = new Subject<Date>();
-  baseUrl = environment.fixturesServiceBaseUrl;
+  dateChanged = new Subject<string>();
+  errorChanged = new Subject<boolean>();
 
   private countries: CountriesResponse[] = [];
-  private date: Date = new Date();
+  private date = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+  private err = false;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   setCountries(countries: CountriesResponse[]): void {
     this.countries = countries;
@@ -28,19 +23,21 @@ export class CountryService {
     return this.countries.slice();
   }
 
-  setDate(date: Date): void {
+  setDate(date: string): void {
     this.date = date;
     this.dateChanged.next(this.date);
   }
 
-  getDate(): Date {
+  getDate(): string {
     return this.date;
   }
 
-  getLeaguesById = (req: LeaguesByIdRequest): Observable<LeaguesResponse[]> => {
-    return this.http.post<LeaguesResponse[]>(
-      this.baseUrl + '/api/fixtures',
-      req
-    );
+  setError(isError: boolean): void {
+    this.err = isError;
+    this.errorChanged.next(this.err);
+  }
+
+  getError(): boolean {
+    return this.err;
   }
 }

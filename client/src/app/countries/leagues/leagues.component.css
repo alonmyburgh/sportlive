@@ -1,7 +1,7 @@
 .card-style {
     border: none;
-    background-color: #1a374e;
-    margin: 0rem 0rem 2rem 0rem;
+    background-color: #172938;
+    margin: 0rem 0rem 0.5rem 0rem;
 }
 
 img {
@@ -12,6 +12,6 @@ img {
   }
 
   .league-label {
-    color: #636262;
+    color: #888888;
     cursor: pointer;
   }

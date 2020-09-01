@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { Fixtures, CountriesResponse } from '../countries/country.model';
+import { CountriesResponse } from '../countries/country.model';
 import { CountryService } from '../countries/country.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
@@ -17,23 +17,32 @@ export class DataStorageService {
   ) {}
 
   fetchCountries(): Observable<CountriesResponse[]> {
-    return this.http
-      .post<CountriesResponse[]>(this.baseUrl + '/api/fixturesbydate', {
-        date: this.countryService.getDate(),
-      })
-      .pipe(
-        map((countries: CountriesResponse[]) => {
-          return countries
-            ? countries.map((country) => {
-                return {
-                  ...country,
-                };
-              })
-            : [];
-        }),
-        tap((countries) => {
-          this.countryService.setCountries(countries);
+    try {
+      const req = this.http
+        .post<CountriesResponse[]>(this.baseUrl + '/api/fixturesbydate', {
+          date: this.countryService.getDate(),
         })
-      );
+        .pipe(
+          map((countries: CountriesResponse[]) => {
+            return countries
+              ? countries.map((country) => {
+                  return {
+                    ...country,
+                  };
+                })
+              : [];
+          }),
+          catchError((error) => {
+            return throwError(error);
+          }),
+          tap((countries) => {
+            this.countryService.setCountries(countries);
+          })
+        );
+
+      return req;
+    } catch (error) {
+      return null;
+    }
   }
 }
