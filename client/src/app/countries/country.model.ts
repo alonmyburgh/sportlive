@@ -24,9 +24,9 @@ export class LeaguesResponse {
   fixtures: FixturesResponse[];
 }
 
-export interface FixturesResponse {
+export class FixturesResponse {
   fixtureId: number;
-  eventDate: Date;
+  eventDate: string;
   eventTimestamp: Date;
   firstHalfStart: Date;
   secondHalfStart: Date;

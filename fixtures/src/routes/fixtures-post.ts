@@ -17,7 +17,6 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
   for (const leagueId of leagueIdArray) {
     let REDIS_KEY = getLeagueIdAndDateRedisKey(date, leagueId);
     const value: string = await redisWrapper.client.get(REDIS_KEY);
-
     if (value && value !== null) {
       response.push(JSON.parse(value));
     } else {
@@ -64,7 +63,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
             REDIS_KEY,
             JSON.stringify(struct),
             "EX",
-            60 * 60
+            60 * 2
           );
 
           response.push(struct);
@@ -91,7 +90,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
             REDIS_KEY,
             JSON.stringify(struct),
             "EX",
-            60 * 60
+            60 * 2
           );
 
           response.push(struct);
@@ -152,7 +151,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
               REDIS_KEY,
               JSON.stringify(struct),
               "EX",
-              60 * 60
+              60 * 2
             );
 
             response.push(struct);

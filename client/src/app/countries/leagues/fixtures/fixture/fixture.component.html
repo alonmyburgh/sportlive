@@ -1,0 +1,73 @@
+<table class="strech table-font">
+  <tr class="table-row">
+    <td class="timing-date-col">
+      <div *ngIf="isToday(fixture.eventDate)" class="ml-1">
+        <label>{{ fixture.eventDate | date: "HH:mm" }}</label>
+      </div>
+      <div *ngIf="!isToday(fixture.eventDate)" class="ml-1">
+        <label>{{ fixture.eventDate | date: "dd MMM" }}</label>
+      </div>
+      <div class="timing-desc">
+        <label
+          [ngClass]="{
+            red:
+              fixture.statusShort === '1H' ||
+              fixture.statusShort === '2H' ||
+              fixture.statusShort === 'ET' ||
+              fixture.statusShort === 'P'
+          }"
+          >{{
+            fixture.elapsed | matchtime: fixture.statusShort:fixture.eventDate
+          }}</label
+        >
+      </div>
+    </td>
+    <td class="fixture-result-col">
+      <div class="team-text">
+        <div
+          [ngClass]="{
+            teamTextGrey:
+              fixture.statusShort === 'FT' &&
+              fixture.goalsAwayTeam >= fixture.goalsHomeTeam
+          }"
+        >
+          <span>{{ fixture.homeTeam.teamName }}</span>
+          <span
+            class="pull-right"
+            [ngClass]="{
+              red:
+                fixture.statusShort === '1H' ||
+                fixture.statusShort === 'HT' ||
+                fixture.statusShort === '2H' ||
+                fixture.statusShort === 'ET' ||
+                fixture.statusShort === 'P'
+            }"
+            >{{ fixture.score | scoreline: fixture.goalsHomeTeam }}</span
+          >
+        </div>
+        <div
+          [ngClass]="{
+            teamTextGrey:
+              fixture.statusShort === 'FT' &&
+              fixture.goalsAwayTeam <= fixture.goalsHomeTeam
+          }"
+        >
+          <span>{{ fixture.awayTeam.teamName }}</span>
+          <span
+            class="pull-right"
+            [ngClass]="{
+              red:
+                fixture.statusShort === '1H' ||
+                fixture.statusShort === 'HT' ||
+                fixture.statusShort === '2H' ||
+                fixture.statusShort === 'ET' ||
+                fixture.statusShort === 'P'
+            }"
+            >{{ fixture.score | scoreline: fixture.goalsAwayTeam }}</span
+          >
+        </div>
+      </div>
+    </td>
+    <td style="width: 10%"></td>
+  </tr>
+</table>

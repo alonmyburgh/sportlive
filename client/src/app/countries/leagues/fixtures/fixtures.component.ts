@@ -7,15 +7,9 @@ import { FixturesResponse } from '../../country.model';
   styleUrls: ['./fixtures.component.css'],
 })
 export class FixturesComponent implements OnInit {
-  @Input() fixtures: FixturesResponse;
+  @Input() fixtures: FixturesResponse[];
 
   constructor() {}
 
   ngOnInit() {}
-
-  isToday = (date: string) => {
-    const today = new Date();
-    const d = new Date(date);
-    return today.setHours(0, 0, 0, 0) === d.setHours(0, 0, 0, 0);
-  }
 }

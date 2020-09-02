@@ -9,9 +9,10 @@ import { SharedModule } from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LeaguesComponent } from './leagues/leagues.component';
 import { FixturesComponent } from './leagues/fixtures/fixtures.component';
+import { FixtureComponent } from './leagues/fixtures/fixture/fixture.component';
 
 @NgModule({
-  declarations: [CountriesComponent, LeaguesComponent, FixturesComponent],
+  declarations: [CountriesComponent, LeaguesComponent, FixturesComponent, FixtureComponent],
   imports: [
     RouterModule,
     CountriesRoutingModule,

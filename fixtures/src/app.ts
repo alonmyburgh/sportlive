@@ -5,6 +5,7 @@ import cors from "cors";
 
 import { fixturesByDateRouter } from "./routes/index";
 import { fixturesPostRouter } from "./routes/fixtures-post";
+import { fixtureByIdRouter } from "./routes/get";
 
 const app = express();
 app.set("trust proxy", true);
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use(fixturesByDateRouter);
 app.use(fixturesPostRouter);
+app.use(fixtureByIdRouter);
 
 app.all("*", async (req, res) => {
   throw new Error("API route incorrect");
