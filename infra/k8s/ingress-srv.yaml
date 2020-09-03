@@ -22,6 +22,10 @@ spec:
             backend:
               serviceName: fixtures-srv
               servicePort: 3001
+          - path: /api/league/?(.*)
+            backend:
+              serviceName: leagues-srv
+              servicePort: 3002
           - path: /?(.*)
             backend:
               serviceName: client-srv

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leagues-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: leagues
+  template:
+    metadata:
+      labels:
+        app: leagues
+    spec:
+      containers:
+        - name: leagues
+          image: alonmyburgh/leagues
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-secret
+                  key: API_KEY
+            - name: MONGO_URI
+              value: 'mongodb://leagues-mongo-srv:27017/leagues'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: leagues-srv
+spec:
+  selector:
+    app: leagues
+  ports:
+    - name: leagues
+      protocol: TCP
+      port: 3002
+      targetPort: 3002

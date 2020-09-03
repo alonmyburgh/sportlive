@@ -1,5 +1,5 @@
 {
-  "name": "countries",
+  "name": "worker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,18 +19,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sportlive/common": "^1.0.7",
-    "@types/express": "^4.17.7",
-    "@types/mongoose": "^5.7.36",
-    "axios": "^0.19.2",
+    "@sportlive/common": "^1.0.6",
+    "axios": "^0.20.0",
+    "cron": "^1.8.2",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-validator": "^6.6.1",
-    "kafka-node": "^5.0.0",
-    "moment": "^2.27.0",
-    "mongoose": "^5.10.0",
-    "mongoose-update-if-current": "^1.4.0",
+    "node-nats-streaming": "^0.3.2",
     "ts-node-dev": "^1.0.0-pre.58",
     "typescript": "^3.9.7"
   },
@@ -38,7 +31,6 @@
     "@types/jest": "^26.0.10",
     "@types/supertest": "^2.0.10",
     "jest": "^26.4.0",
-    "mongodb-memory-server": "^6.6.4",
     "supertest": "^4.0.2",
     "ts-jest": "^26.2.0"
   }

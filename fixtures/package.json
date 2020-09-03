@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sportlive/common": "^1.0.3",
+    "@sportlive/common": "^1.0.7",
     "@types/express": "^4.17.7",
     "@types/mongoose": "^5.7.36",
     "async-redis": "^1.1.7",
