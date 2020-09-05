@@ -9,7 +9,7 @@ export class CountryService {
   errorChanged = new Subject<boolean>();
 
   private countries: CountriesResponse[] = [];
-  private date = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+  private date = '';
   private err = false;
 
   constructor() {}

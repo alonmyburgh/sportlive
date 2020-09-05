@@ -13,7 +13,7 @@ router.get("/api/countries", async (req: Request, res: Response) => {
   if (!countries || countries.length == 0) {
     await getCountriesFromAPI();
     const apiCountries = await Country.find({});
-    
+
     new CountriesUpdatedPublisher(natsWrapper.client).publish(apiCountries);
 
     return res.send(apiCountries);
@@ -37,24 +37,24 @@ router.get("/api/countries", async (req: Request, res: Response) => {
 const getCountriesFromAPI = async () => {
   try {
     const rsp: CountriesObj = await axios.get(
-      "https://v2.api-football.com/countries",
+      "https://api-football-beta.p.rapidapi.com/countries",
       {
         headers: {
           "content-type": "application/octet-stream",
-          "x-rapidapi-key":
-          process.env.API_KEY,
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
+          "x-rapidapi-key": process.env.API_KEY,
           useQueryString: true,
         },
       }
     );
 
-    const jsonArray = rsp.data.api.countries;
+    const jsonArray = rsp.data.response;
 
     for (let i = 0; i < jsonArray.length; i++) {
       const element = jsonArray[i];
-      if (element.country && element.code) {
+      if (element.name && element.code) {
         let dbType = Country.build({
-          country: element.country,
+          country: element.name,
           code: element.code,
           flag: element.flag,
           lastUpdate: new Date(),
@@ -62,21 +62,19 @@ const getCountriesFromAPI = async () => {
         await dbType.save();
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 interface CountriesObj {
   data: {
-    api: {
-      results: number;
-      countries: [
-        {
-          country: string;
-          code: string;
-          flag: string;
-        }
-      ];
-    };
+    results: number;
+    response: {
+      name: string;
+      code: string;
+      flag: string;
+    }[];
   };
 }
 

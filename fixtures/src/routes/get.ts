@@ -27,7 +27,7 @@ router.get("/api/fixtures", async (req: Request, res: Response) => {
     REDIS_KEY,
     JSON.stringify(updatedFixture),
     "EX",
-    90
+    30
   );
 
   return res.status(200).send(updatedFixture);

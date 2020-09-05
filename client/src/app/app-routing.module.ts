@@ -8,6 +8,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./countries/countries.module').then((m) => m.CountriesModule),
   },
+  {
+    path: 'league/:leagueId',
+    loadChildren: () =>
+      import('./league/league.module').then((m) => m.LeagueModule),
+  },
 ];
 
 @NgModule({

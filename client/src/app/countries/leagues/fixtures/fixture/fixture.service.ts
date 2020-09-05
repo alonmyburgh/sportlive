@@ -15,31 +15,14 @@ export class FixtureService {
     const params = new HttpParams().set('fixtureId', fixtureId.toString());
 
     return this.http
-      .get<any>(this.baseUrl + '/api/fixtures', { params })
+      .get<FixturesResponse>(this.baseUrl + '/api/fixtures', { params })
       .pipe(
-        map((fixture: any) => {
-          return {
-            fixtureId: fixture.fixture_id,
-            eventDate: fixture.event_date,
-            eventTimestamp: fixture.event_timestamp,
-            firstHalfStart: fixture.firstHalfStart,
-            secondHalfStart: fixture.secondHalfStart,
-            round: fixture.round,
-            status: fixture.status,
-            statusShort: fixture.statusShort,
-            elapsed: fixture.elapsed,
-            venue: fixture.venue,
-            referee: fixture.referee,
-            homeTeam: fixture.homeTeam,
-            awayTeam: fixture.awayTeam,
-            goalsHomeTeam: fixture.goalsHomeTeam,
-            goalsAwayTeam: fixture.goalsAwayTeam,
-            score: fixture.score,
-          };
+        map((fixture: FixturesResponse) => {
+          return fixture;
         }),
         catchError((error) => {
           return throwError(error);
         })
       );
-  };
+  }
 }

@@ -26,27 +26,27 @@ export class FixtureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (
-      this.fixture.statusShort === '1H' ||
-      this.fixture.statusShort === 'HT' ||
-      this.fixture.statusShort === '2H' ||
-      this.fixture.statusShort === 'ET' ||
-      this.fixture.statusShort === 'P'
+      this.fixture.fixture.status.short === '1H' ||
+      this.fixture.fixture.status.short === 'HT' ||
+      this.fixture.fixture.status.short === '2H' ||
+      this.fixture.fixture.status.short === 'ET' ||
+      this.fixture.fixture.status.short === 'P'
     ) {
       const source = interval(30000);
       this.timerSubscription = source.subscribe(
         (val) =>
           (this.updateSubscription = this.fixtureService
-            .updateFixtureById(this.fixture.fixtureId)
+            .updateFixtureById(this.fixture.fixture.id)
             .subscribe((rsp) => {
-              this.fixture.elapsed = rsp.elapsed;
-              this.fixture.goalsHomeTeam = rsp.goalsHomeTeam;
-              this.fixture.goalsAwayTeam = rsp.goalsAwayTeam;
+              this.fixture.fixture.status.elapsed = rsp.fixture.status.elapsed;
+              this.fixture.goals.home = rsp.goals.home;
+              this.fixture.goals.away = rsp.goals.away;
             }))
       );
     }
   }
 
-  isToday = (date: string) => {
+  isToday = (date: Date) => {
     const today = new Date();
     const d = new Date(date);
     return today.setHours(0, 0, 0, 0) === d.setHours(0, 0, 0, 0);

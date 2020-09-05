@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class LeagueService {
+export class LeaguesService {
   leaguesByIdRequest: LeaguesByIdRequest = new LeaguesByIdRequest();
   leagueLoaded = new Subject<string>();
   baseUrl = environment.fixturesServiceBaseUrl;

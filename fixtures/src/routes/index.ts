@@ -28,7 +28,7 @@ router.post("/api/fixturesbydate", async (req: Request, res: Response) => {
 
   if (
     isTodayDate &&
-    moment(new Date()).diff(moment(fixtures.lastUpdate), "minutes") > 10
+    moment(new Date()).diff(moment(fixtures.lastUpdate), "minutes") > 5
   ) {
     await Fixture.findByIdAndDelete(fixtures._id);
     fixtures = await getFixturesLogic(date);
@@ -53,7 +53,7 @@ const getFixturesLogic = async (d: string) => {
 
   const rsp = await getFixturesFromAPI(d);
 
-  if (rsp === undefined || rsp.length == 0) {
+  if (rsp === null || rsp.length == 0) {
     return null;
   }
 

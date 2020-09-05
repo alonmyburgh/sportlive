@@ -21,21 +21,22 @@ export const saveResponse = async (
         flag: `/assets/img/${key}.svg`,
       };
     }
+
     r.push({
       code: countriesDict[key].code,
       country: key,
       flag: countriesDict[key].flag,
       liveMatchCount: value.filter(
         (f) =>
-          f.statusShort === "1H" ||
-          f.statusShort === "2H" ||
-          f.statusShort === "HT" ||
-          f.statusShort === "ET" ||
-          f.statusShort === "P"
+          f.fixture.status.short === "1H" ||
+          f.fixture.status.short === "2H" ||
+          f.fixture.status.short === "HT" ||
+          f.fixture.status.short === "ET" ||
+          f.fixture.status.short === "P"
       ).length,
       matchCount: value.length,
       leagues: Array.from(
-        Object.entries(groupBy(value, "league_id")).map(([lkey, lval]) => {
+        Object.entries(groupBy(value, "leagueId")).map(([lkey, lval]) => {
           return {
             leagueId: Number(lkey),
           };

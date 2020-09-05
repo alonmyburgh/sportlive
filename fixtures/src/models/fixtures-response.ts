@@ -1,3 +1,5 @@
+import { DbFixture } from "./fixture-interface";
+
 export class Fixtures {
   countries: CountriesResponse[] = [];
 }
@@ -18,40 +20,7 @@ interface LeaguesLight {
 export interface LeaguesResponse {
   leagueId: number;
   name: string;
-  type?: string;
-  season?: number;
-  seasonStart?: Date;
-  seasonEnd?: Date;
+  season: number;
   logo: string;
-  fixtures: FixturesResponse[];
-}
-
-export interface FixturesResponse {
-  fixtureId: number;
-  eventDate: Date;
-  eventTimestamp: Date;
-  firstHalfStart: Date;
-  secondHalfStart: Date;
-  round: string;
-  status: string;
-  statusShort: string;
-  elapsed: number;
-  venue: string;
-  referee: string;
-  homeTeam: FixtureTeam;
-  awayTeam: FixtureTeam;
-  goalsHomeTeam: number;
-  goalsAwayTeam: number;
-  score: {
-    halftime: string;
-    fulltime: string;
-    extratime: string;
-    penalty: string;
-  };
-}
-
-interface FixtureTeam {
-  teamId: number;
-  teamName: string;
-  logo: string;
+  fixtures: DbFixture[];
 }

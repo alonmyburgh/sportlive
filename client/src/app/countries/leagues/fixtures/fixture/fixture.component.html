@@ -1,23 +1,24 @@
 <table class="strech table-font">
   <tr class="table-row">
     <td class="timing-date-col">
-      <div *ngIf="isToday(fixture.eventDate)" class="ml-1">
-        <label>{{ fixture.eventDate | date: "HH:mm" }}</label>
+      <div *ngIf="isToday(fixture.fixture.date)" class="ml-1">
+        <label>{{ fixture.fixture.date | date: "HH:mm" }}</label>
       </div>
-      <div *ngIf="!isToday(fixture.eventDate)" class="ml-1">
-        <label>{{ fixture.eventDate | date: "dd MMM" }}</label>
+      <div *ngIf="!isToday(fixture.fixture.date)" class="ml-1">
+        <label>{{ fixture.fixture.date | date: "dd MMM" }}</label>
       </div>
       <div class="timing-desc">
         <label
           [ngClass]="{
             red:
-              fixture.statusShort === '1H' ||
-              fixture.statusShort === '2H' ||
-              fixture.statusShort === 'ET' ||
-              fixture.statusShort === 'P'
+              fixture.fixture.status.short === '1H' ||
+              fixture.fixture.status.short === '2H' ||
+              fixture.fixture.status.short === 'ET' ||
+              fixture.fixture.status.short === 'P'
           }"
           >{{
-            fixture.elapsed | matchtime: fixture.statusShort:fixture.eventDate
+            fixture.fixture.status.elapsed
+              | matchtime: fixture.fixture.status.short:fixture.fixture.date
           }}</label
         >
       </div>
@@ -27,43 +28,43 @@
         <div
           [ngClass]="{
             teamTextGrey:
-              fixture.statusShort === 'FT' &&
-              fixture.goalsAwayTeam >= fixture.goalsHomeTeam
+              fixture.fixture.status.short === 'FT' &&
+              fixture.goals.away >= fixture.goals.home
           }"
         >
-          <span>{{ fixture.homeTeam.teamName }}</span>
+          <span>{{ fixture.teams.home.name }}</span>
           <span
             class="pull-right"
             [ngClass]="{
               red:
-                fixture.statusShort === '1H' ||
-                fixture.statusShort === 'HT' ||
-                fixture.statusShort === '2H' ||
-                fixture.statusShort === 'ET' ||
-                fixture.statusShort === 'P'
+                fixture.fixture.status.short === '1H' ||
+                fixture.fixture.status.short === 'HT' ||
+                fixture.fixture.status.short === '2H' ||
+                fixture.fixture.status.short === 'ET' ||
+                fixture.fixture.status.short === 'P'
             }"
-            >{{ fixture.score | scoreline: fixture.goalsHomeTeam }}</span
+            >{{ fixture.goals.home | scoreline }}</span
           >
         </div>
         <div
           [ngClass]="{
             teamTextGrey:
-              fixture.statusShort === 'FT' &&
-              fixture.goalsAwayTeam <= fixture.goalsHomeTeam
+              fixture.fixture.status.short === 'FT' &&
+              fixture.goals.away <= fixture.goals.home
           }"
         >
-          <span>{{ fixture.awayTeam.teamName }}</span>
+          <span>{{ fixture.teams.away.name }}</span>
           <span
             class="pull-right"
             [ngClass]="{
               red:
-                fixture.statusShort === '1H' ||
-                fixture.statusShort === 'HT' ||
-                fixture.statusShort === '2H' ||
-                fixture.statusShort === 'ET' ||
-                fixture.statusShort === 'P'
+                fixture.fixture.status.short === '1H' ||
+                fixture.fixture.status.short === 'HT' ||
+                fixture.fixture.status.short === '2H' ||
+                fixture.fixture.status.short === 'ET' ||
+                fixture.fixture.status.short === 'P'
             }"
-            >{{ fixture.score | scoreline: fixture.goalsAwayTeam }}</span
+            >{{ fixture.goals.away | scoreline }}</span
           >
         </div>
       </div>

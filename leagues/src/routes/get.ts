@@ -11,7 +11,7 @@ router.get("/api/league/:leagueId", async (req: Request, res: Response) => {
   }
 
   const league = await League.findOne({
-    leagueId: Number(leagueId),
+    "league.id": Number(leagueId),
   });
 
   if (league && league !== null) {

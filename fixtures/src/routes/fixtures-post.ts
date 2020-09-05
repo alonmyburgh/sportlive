@@ -10,8 +10,9 @@ const router = express.Router();
 
 router.post("/api/fixtures", async (req: Request, res: Response) => {
   const { leagueIds, date } = req.body;
-  let response: LeaguesResponse[] = [];  
+  let response: LeaguesResponse[] = [];
   const isTodayDate: boolean = getIsToday(date);
+  const year = date.split("-")[0];
   const leagueIdArray: string[] = leagueIds.split(",");
 
   for (const leagueId of leagueIdArray) {
@@ -21,42 +22,14 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
       response.push(JSON.parse(value));
     } else {
       if (isTodayDate) {
-        let apiRsp = await getFixturesByLeagueId(leagueId, date);
-        if (apiRsp !== undefined && apiRsp.length > 0) {
+        let apiRsp = await getFixturesByLeagueId(leagueId, date, year);
+        if (apiRsp !== null && apiRsp.length > 0) {
           let struct: LeaguesResponse = {
-            leagueId: apiRsp[0].league_id,
+            leagueId: apiRsp[0].league.id,
             name: apiRsp[0].league.name,
             logo: apiRsp[0].league.logo,
-            fixtures: Array.from(
-              apiRsp.map((fix) => {
-                return {
-                  fixtureId: fix.fixture_id,
-                  eventDate: fix.event_date,
-                  eventTimestamp: fix.event_timestamp,
-                  firstHalfStart: fix.firstHalfStart,
-                  secondHalfStart: fix.secondHalfStart,
-                  round: fix.round,
-                  status: fix.status,
-                  statusShort: fix.statusShort,
-                  elapsed: fix.elapsed,
-                  venue: fix.venue,
-                  referee: fix.referee,
-                  homeTeam: {
-                    teamId: fix.homeTeam.team_id,
-                    teamName: fix.homeTeam.team_name,
-                    logo: fix.homeTeam.logo,
-                  },
-                  awayTeam: {
-                    teamId: fix.awayTeam.team_id,
-                    teamName: fix.awayTeam.team_name,
-                    logo: fix.awayTeam.logo,
-                  },
-                  goalsHomeTeam: fix.goalsHomeTeam,
-                  goalsAwayTeam: fix.goalsAwayTeam,
-                  score: fix.score,
-                };
-              })
-            ),
+            season: apiRsp[0].league.season,
+            fixtures: apiRsp,
           };
 
           await redisWrapper.client.set(
@@ -78,10 +51,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
           let struct: LeaguesResponse = {
             leagueId: league.leagueId,
             name: league.name,
-            type: league.type,
             season: league.season,
-            seasonEnd: league.seasonEnd,
-            seasonStart: league.seasonStart,
             logo: league.logo,
             fixtures: league.fixtures,
           };
@@ -95,42 +65,14 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
 
           response.push(struct);
         } else {
-          let apiRsp = await getFixturesByLeagueId(leagueId, date);
-          if (apiRsp !== undefined && apiRsp.length > 0) {
+          let apiRsp = await getFixturesByLeagueId(leagueId, date, year);
+          if (apiRsp !== null && apiRsp.length > 0) {
             let struct: LeaguesResponse = {
-              leagueId: apiRsp[0].league_id,
+              leagueId: apiRsp[0].league.id,
               name: apiRsp[0].league.name,
+              season: apiRsp[0].league.season,
               logo: apiRsp[0].league.logo,
-              fixtures: Array.from(
-                apiRsp.map((fix) => {
-                  return {
-                    fixtureId: fix.fixture_id,
-                    eventDate: fix.event_date,
-                    eventTimestamp: fix.event_timestamp,
-                    firstHalfStart: fix.firstHalfStart,
-                    secondHalfStart: fix.secondHalfStart,
-                    round: fix.round,
-                    status: fix.status,
-                    statusShort: fix.statusShort,
-                    elapsed: fix.elapsed,
-                    venue: fix.venue,
-                    referee: fix.referee,
-                    homeTeam: {
-                      teamId: fix.homeTeam.team_id,
-                      teamName: fix.homeTeam.team_name,
-                      logo: fix.homeTeam.logo,
-                    },
-                    awayTeam: {
-                      teamId: fix.awayTeam.team_id,
-                      teamName: fix.awayTeam.team_name,
-                      logo: fix.awayTeam.logo,
-                    },
-                    goalsHomeTeam: fix.goalsHomeTeam,
-                    goalsAwayTeam: fix.goalsAwayTeam,
-                    score: fix.score,
-                  };
-                })
-              ),
+              fixtures: apiRsp,
             };
 
             let dbType = League.build({
@@ -139,10 +81,7 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
               leagueId: struct.leagueId,
               logo: struct.logo,
               name: struct.name,
-              seasonStart: struct.seasonStart,
               season: struct.season,
-              type: struct.type,
-              seasonEnd: struct.seasonEnd,
               lastUpdate: new Date(),
             });
             await dbType.save();

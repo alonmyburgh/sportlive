@@ -5,7 +5,7 @@ import { map, tap, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { CountriesResponse } from '../countries/country.model';
 import { CountryService } from '../countries/country.service';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
@@ -18,9 +18,13 @@ export class DataStorageService {
 
   fetchCountries(): Observable<CountriesResponse[]> {
     try {
+      const date = this.countryService.getDate();
+      if (date === '') {
+        return of([]);
+      }
       const req = this.http
         .post<CountriesResponse[]>(this.baseUrl + '/api/fixturesbydate', {
-          date: this.countryService.getDate(),
+          date,
         })
         .pipe(
           map((countries: CountriesResponse[]) => {

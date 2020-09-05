@@ -1,0 +1,23 @@
+<div class="card card-image theme-dark">
+    <div class="row">
+      <table class="m-4">
+        <tr>
+          <td>
+            <div>
+              <img style="max-height: 70px;" src="{{ league.league.logo }}" alt="{{ league.league.name }}" />
+            </div>
+          </td>
+          <td style="height: 100%; display: grid;">
+            <div>{{ league.league.name }}</div>
+            <div>
+              <img style="border-radius: 10px; max-height: 20px;" src="{{ league.country.flag }}" alt="{{ league.country.name }}" />
+              <span>{{ league.country.name }}, {{ league.country.code }}</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="col-sm-12">
+        <progressbar [value]="leagueDurationPercent" type="success"></progressbar>
+      </div>
+    </div>
+</div>

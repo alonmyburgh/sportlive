@@ -2,56 +2,70 @@ import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface LeagueAttrs {
-  leagueId: number;
-  name: string;
-  type: string;
-  country: string;
-  countryCode: string;
-  season: number;
-  seasonStart: string;
-  seasonEnd: string;
-  logo: string;
-  flag: string;
-  coverage: {
-    standings: boolean;
-    fixtures: {
-      events: boolean;
-      lineups: boolean;
-      statistics: boolean;
-      playersStatistics: boolean;
-    };
-    players: boolean;
-    topScorers: boolean;
-    predictions: boolean;
-    odds: boolean;
+  league: {
+    id: number;
+    name: string;
+    type: string;
+    logo: string;
   };
+  country: {
+    name: string;
+    code: string;
+    flag: string;
+  };
+  seasons: {
+    year: number;
+    start: string;
+    end: string;
+    current: boolean;
+    coverage: {
+      fixtures: {
+        events: boolean;
+        lineups: boolean;
+        statistics_fixtures: boolean;
+        statistics_players: boolean;
+      };
+      standings: boolean;
+      players: boolean;
+      top_scorers: boolean;
+      predictions: boolean;
+      odds: boolean;
+    };
+  }[];
   lastUpdate: Date;
 }
 
 interface LeagueDoc extends mongoose.Document {
-  leagueId: number;
-  name: string;
-  type: string;
-  country: string;
-  countryCode: string;
-  season: number;
-  seasonStart: string;
-  seasonEnd: string;
-  logo: string;
-  flag: string;
-  coverage: {
-    standings: boolean;
-    fixtures: {
-      events: boolean;
-      lineups: boolean;
-      statistics: boolean;
-      playersStatistics: boolean;
-    };
-    players: boolean;
-    topScorers: boolean;
-    predictions: boolean;
-    odds: boolean;
+  league: {
+    id: number;
+    name: string;
+    type: string;
+    logo: string;
   };
+  country: {
+    name: string;
+    code: string;
+    flag: string;
+  };
+  seasons: {
+    year: number;
+    start: string;
+    end: string;
+    current: boolean;
+    coverage: {
+      fixtures: {
+        events: boolean;
+        lineups: boolean;
+        statistics_fixtures: boolean;
+        statistics_players: boolean;
+      };
+      standings: boolean;
+      players: boolean;
+      top_scorers: boolean;
+      predictions: boolean;
+      odds: boolean;
+    };
+  }[];
   lastUpdate: Date;
   version: number;
 }
@@ -62,40 +76,17 @@ interface LeagueModel extends mongoose.Model<LeagueDoc> {
 
 const leagueSchema = new mongoose.Schema(
   {
-    leagueId: {
-      type: Number,
+    league: {
+      type: Object,
       required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
     },
     country: {
-      type: String,
+      type: Object,
+      required: true,
     },
-    countryCode: {
-      type: String,
-    },
-    season: {
-      type: Number,
-    },
-    seasonStart: {
-      type: String,
-    },
-    seasonEnd: {
-      type: String,
-    },
-    logo: {
-      type: String,
-    },
-    flag: {
-      type: String,
-    },
-    coverage: {
-        type: Object,
+    seasons: {
+      type: Array,
+      required: true,
     },
     lastUpdate: {
       type: mongoose.Schema.Types.Date,

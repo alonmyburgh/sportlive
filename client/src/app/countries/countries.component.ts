@@ -9,7 +9,7 @@ import {
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
-import { LeagueService } from './leagues/league.service';
+import { LeaguesService } from './leagues/leagues.service';
 
 @Component({
   selector: 'app-countries',
@@ -30,7 +30,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
     private countryService: CountryService,
     private dataStorageService: DataStorageService,
     private spinner: NgxSpinnerService,
-    private leagueService: LeagueService
+    private leaguesService: LeaguesService
   ) {}
   ngOnDestroy(): void {
     this.dateSubsc.unsubscribe();
@@ -41,7 +41,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.countries = this.countryService.getCountries();
 
-    this.leaguesSubsc = this.leagueService.leagueLoaded.subscribe(
+    this.leaguesSubsc = this.leaguesService.leagueLoaded.subscribe(
       (countryCode) => {
         this.countries.forEach((element) => {
           if (element.code === countryCode) {
@@ -81,7 +81,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
         if (!element.isExpand) {
           element.isLoading = true;
           const req = this.createLeagueByIdRequest(element);
-          this.leagueService.setLeaguesByIdRequest(req);
+          this.leaguesService.setLeaguesByIdRequest(req);
           element.isExpand = !element.isExpand;
         } else {
           element.isExpand = !element.isExpand;

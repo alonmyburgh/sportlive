@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { CountryService } from './countries/country.service';
-import { LeagueService } from './countries/leagues/league.service';
+import { LeaguesService } from './countries/leagues/leagues.service';
+import { LeagueService } from './league/league.service';
 import { FixtureService } from './countries/leagues/fixtures/fixture/fixture.service';
 
 @NgModule({
-  providers: [CountryService, LeagueService, FixtureService],
+  providers: [CountryService, LeaguesService, LeagueService, FixtureService],
 })
 export class CoreModule {}

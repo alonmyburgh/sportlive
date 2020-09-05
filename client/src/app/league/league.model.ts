@@ -1,11 +1,4 @@
-export interface LeaguesObj {
-  data: {
-    results: number;
-    response: LeaguesResponse[];
-  };
-}
-
-export interface LeaguesResponse {
+export class LeagueResponse {
   league: {
     id: number;
     name: string;

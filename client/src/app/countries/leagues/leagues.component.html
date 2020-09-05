@@ -1,10 +1,9 @@
 <div class="card card-image card-style" *ngFor="let league of leagues">
-  <a role="button">
+  <a role="button" (click)="onLeagueClicked(league.leagueId)">
     <img src="{{ league.logo }}" alt="{{ league.name }}" class="mr-3" />
-    <label class="league-label">{{league.name}}
-      </label>
+    <label class="league-label">{{ league.name }} </label>
   </a>
-  <div style="margin-top: 1rem;">
+  <div style="margin-top: 1rem">
     <app-fixtures [fixtures]="league.fixtures"></app-fixtures>
   </div>
 </div>

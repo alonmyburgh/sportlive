@@ -4,10 +4,11 @@ import { FixturesObj } from "../models/fixture-interface";
 export const getFixturesFromAPI = async (date: string) => {
   try {
     const rsp: FixturesObj = await axios.get(
-      `https://v2.api-football.com/fixtures/date/${date}`,
+      `https://api-football-beta.p.rapidapi.com/fixtures?date=${date}`,
       {
         headers: {
           "content-type": "application/octet-stream",
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
           "x-rapidapi-key": process.env.API_KEY,
           useQueryString: true,
         },
@@ -17,27 +18,30 @@ export const getFixturesFromAPI = async (date: string) => {
         timeout: 10000,
       }
     );
-    if (rsp.data.api.results == 0) {
-      return undefined;
+
+    if (rsp.data.results == 0) {
+      return null;
     }
-    const jsonArray = rsp.data.api.fixtures;
+    const jsonArray = rsp.data.response;
     jsonArray.forEach((a) => {
       a.country = a.league.country;
+      a.leagueId = a.league.id;
     });
     return jsonArray;
   } catch (error) {
     console.log(error);
   }
-  return undefined;
+  return null;
 };
 
 export const getFixtureFromAPI = async (fixtureId: string) => {
   try {
     const rsp: FixturesObj = await axios.get(
-      `https://v2.api-football.com/fixtures/id/${fixtureId}`,
+      `https://api-football-beta.p.rapidapi.com/fixtures?id=${fixtureId}`,
       {
         headers: {
           "content-type": "application/octet-stream",
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
           "x-rapidapi-key": process.env.API_KEY,
           useQueryString: true,
         },
@@ -48,12 +52,12 @@ export const getFixtureFromAPI = async (fixtureId: string) => {
       }
     );
 
-    if (rsp.data.api.results == 0) {
+    if (rsp.data.results == 0) {
       return null;
     }
-    
-    const jsonArray = rsp.data.api.fixtures;
-    
+
+    const jsonArray = rsp.data.response;
+
     return jsonArray[0];
   } catch (error) {
     console.log(error);
@@ -61,13 +65,18 @@ export const getFixtureFromAPI = async (fixtureId: string) => {
   return null;
 };
 
-export const getFixturesByLeagueId = async (leagueId: string, date: string) => {
+export const getFixturesByLeagueId = async (
+  leagueId: string,
+  date: string,
+  year: string
+) => {
   try {
     const rsp: FixturesObj = await axios.get(
-      `https://v2.api-football.com/fixtures/league/${leagueId}/${date}`,
+      `https://api-football-beta.p.rapidapi.com/fixtures?league=${leagueId}&date=${date}&season=${year}`,
       {
         headers: {
           "content-type": "application/octet-stream",
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
           "x-rapidapi-key": process.env.API_KEY,
           useQueryString: true,
         },
@@ -77,10 +86,10 @@ export const getFixturesByLeagueId = async (leagueId: string, date: string) => {
       }
     );
 
-    const jsonArray = rsp.data.api.fixtures;
+    const jsonArray = rsp.data.response;
 
     return jsonArray;
   } catch (error) {}
 
-  return undefined;
+  return null;
 };
