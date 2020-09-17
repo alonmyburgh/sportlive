@@ -1,4 +1,4 @@
-<table class="strech table-font">
+<table class="strech table-font" (click)="onMatchClicked(fixture.fixture.id)">
   <tr class="table-row">
     <td class="timing-date-col">
       <div *ngIf="isToday(fixture.fixture.date)" class="ml-1">
@@ -13,6 +13,7 @@
             red:
               fixture.fixture.status.short === '1H' ||
               fixture.fixture.status.short === '2H' ||
+              fixture.fixture.status.short === 'HT' ||
               fixture.fixture.status.short === 'ET' ||
               fixture.fixture.status.short === 'P'
           }"

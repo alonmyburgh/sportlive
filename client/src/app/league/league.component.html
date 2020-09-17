@@ -1,23 +1,68 @@
-<div class="card card-image theme-dark">
-    <div class="row">
-      <table class="m-4">
-        <tr>
-          <td>
-            <div>
-              <img style="max-height: 70px;" src="{{ league.league.logo }}" alt="{{ league.league.name }}" />
-            </div>
-          </td>
-          <td style="height: 100%; display: grid;">
-            <div>{{ league.league.name }}</div>
-            <div>
-              <img style="border-radius: 10px; max-height: 20px;" src="{{ league.country.flag }}" alt="{{ league.country.name }}" />
-              <span>{{ league.country.name }}, {{ league.country.code }}</span>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <div class="col-sm-12">
-        <progressbar [value]="leagueDurationPercent" type="success"></progressbar>
-      </div>
-    </div>
+<nav
+  class="navbar navbar-dark navbar-expand-lg"
+  style="background-color: #28a745; padding: 0"
+>
+  <ul
+    class="nav nav-tabs"
+    id="myTab"
+    role="tablist"
+    style="border-bottom: none"
+  >
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        id="details-tab"
+        (click)="activeTab = 'details'"
+        data-toggle="tab"
+        href="#details"
+        role="tab"
+        aria-controls="details"
+        aria-selected="true"
+        >Details</a
+      >
+    </li>
+    <li class="nav-item" *ngIf="currentSeason.coverage.players">
+      <a
+        class="nav-link"
+        id="top-players-tab"
+        (click)="activeTab = 'top-players'"
+        data-toggle="tab"
+        href="#top-players"
+        role="tab"
+        aria-controls="top-players"
+        aria-selected="false"
+        >Top Players</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        id="contact-tab"
+        data-toggle="tab"
+        href="#contact"
+        role="tab"
+        aria-controls="contact"
+        aria-selected="false"
+        >Contact</a
+      >
+    </li>
+  </ul>
+</nav>
+<div
+  class="card card-image theme-dark tab-pane"
+  *ngIf="activeTab === 'details'"
+  id="details"
+  role="tabpanel"
+  aria-labelledby="details-tab"
+>
+  <app-league-details></app-league-details>
+</div>
+<div
+  class="card card-image theme-dark tab-pane"
+  *ngIf="activeTab === 'top-players'"
+  id="top-players"
+  role="tabpanel"
+  aria-labelledby="top-players-tab"
+>
+  top
 </div>

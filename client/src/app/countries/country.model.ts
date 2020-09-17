@@ -148,7 +148,7 @@ export class FixturesResponse {
       type: string;
       value: number;
     }[];
-  };
+  }[];
   players?: {
     team: {
       id: number;
@@ -218,7 +218,7 @@ export class FixturesResponse {
         };
       }[];
     }[];
-  };
+  }[];
 }
 
 export class LeaguesByIdRequest {

@@ -5,12 +5,13 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 import { LeagueComponent } from './league.component';
+import { LeagueDetailsComponent } from './league-details/league-details.component';
 import { LeagueRoutingModule } from './league-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [LeagueComponent],
+  declarations: [LeagueComponent, LeagueDetailsComponent],
   imports: [
     RouterModule,
     LeagueRoutingModule,

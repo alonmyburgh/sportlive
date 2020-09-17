@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { LeagueResponse, Season } from './league.model';
-import { LeagueService } from './league.service';
+import { LeagueResponse, Season } from '../league.model';
+import { LeagueService } from '../league.service';
 
 @Component({
-  selector: 'app-league',
-  templateUrl: './league.component.html',
-  styleUrls: ['./league.component.css'],
+  selector: 'app-league-details',
+  templateUrl: './league-details.component.html',
+  styleUrls: ['./league-details.component.css'],
 })
-export class LeagueComponent implements OnInit {
+export class LeagueDetailsComponent implements OnInit {
   league: LeagueResponse;
-  activeTab: string;
   currentSeason: Season;
   leagueDurationPercent: number;
   constructor(private leagueService: LeagueService) {}
 
   ngOnInit(): void {
-    this.activeTab = 'details';
     this.league = this.leagueService.getLeague();
     this.leagueDurationPercent = this.calculateLeagueProgress();
   }
@@ -40,5 +38,5 @@ export class LeagueComponent implements OnInit {
     }
 
     return 0;
-  };
+  }
 }

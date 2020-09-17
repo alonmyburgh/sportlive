@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FixturesObj } from "../models/fixture-interface";
+import { FixturesObj, ResponseObj } from "../models/fixture-interface";
 
 export const getFixturesFromAPI = async (date: string) => {
   try {
@@ -91,5 +91,61 @@ export const getFixturesByLeagueId = async (
     return jsonArray;
   } catch (error) {}
 
+  return null;
+};
+
+export const getStandingsFromAPI = async (leagueId: string, season: string) => {
+  try {
+    const rsp: ResponseObj = await axios.get(
+      `https://api-football-beta.p.rapidapi.com/standings?league=${leagueId}&season=${season}`,
+      {
+        headers: {
+          "content-type": "application/octet-stream",
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
+          "x-rapidapi-key": process.env.API_KEY,
+          useQueryString: true,
+        },
+        timeout: 10000,
+      }
+    );
+      
+    if (rsp.data.results == 0) {
+      return null;
+    }
+
+    const jsonArray = rsp.data.response;
+
+    return jsonArray[0];
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+};
+
+export const getPredictionsFromAPI = async (fixtureId: string) => {
+  try {
+    const rsp: ResponseObj = await axios.get(
+      `https://api-football-beta.p.rapidapi.com/predictions?fixture=${fixtureId}`,
+      {
+        headers: {
+          "content-type": "application/octet-stream",
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
+          "x-rapidapi-key": process.env.API_KEY,
+          useQueryString: true,
+        },
+        timeout: 10000,
+      }
+    );
+      
+    if (rsp.data.results == 0) {
+      return null;
+    }
+
+    const jsonArray = rsp.data.response;
+
+    return jsonArray[0];
+  } catch (error) {
+    console.log(error);
+  }
   return null;
 };

@@ -10,3 +10,16 @@ export const getFixtureIdRedisKey = (
 ) => {
   return `FixtureIdRedisKey_${fixtureId}`;
 };
+
+export const getStandingsRedisKey = (
+  leagueId: string,
+  season: string
+) => {
+  return `StandingsRedisKey_${leagueId}_${season}`;
+};
+
+export const getPredictionsRedisKey = (
+  fixtureId: string  
+) => {
+  return `PredictionsRedisKey_${fixtureId}`;
+};

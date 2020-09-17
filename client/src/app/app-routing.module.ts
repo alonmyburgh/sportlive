@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./league/league.module').then((m) => m.LeagueModule),
   },
+  {
+    path: 'match/:fixtureId',
+    loadChildren: () =>
+      import('./match/match.module').then((m) => m.MatchModule),
+  },
 ];
 
 @NgModule({

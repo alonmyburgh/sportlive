@@ -4,11 +4,12 @@
   }
   .nav-link{
     border:none;
-    color: #3c3c3c;
+    color: #bbbbbb;
+    text-align: center;
   }
   .nav-link.active {
-    background-color: #286536;
+    background-color: #28a745;
     color: white;
     border-radius: 0;
-    border-color: #286536;
+    border-bottom: 4px solid #bbbbbb;
   }

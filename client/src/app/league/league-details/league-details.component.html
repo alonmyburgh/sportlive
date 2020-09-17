@@ -1,0 +1,37 @@
+<div class="row">
+  <table class="m-4">
+    <tr>
+      <td>
+        <div>
+          <img
+            style="max-height: 70px"
+            src="{{ league.league.logo }}"
+            alt="{{ league.league.name }}"
+          />
+        </div>
+      </td>
+      <td style="height: 100%; display: grid">
+        <div style="color: white; font-size: 1.5rem">
+          {{ league.league.name }}
+        </div>
+        <div>
+          <img
+            style="border-radius: 10px; max-height: 20px"
+            src="{{ league.country.flag }}"
+            alt="{{ league.country.name }}"
+          />
+          <span style="margin-left: 0.5rem; color: white"
+            >{{ league.country.name }}, {{ league.country.code }}</span
+          >
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="col-sm-12">
+    <progressbar [value]="leagueDurationPercent" type="success"></progressbar>
+    <div style="color: white">
+      <span>{{ currentSeason.start | date: "dd MMM" }}</span>
+      <span style="float: right">{{ currentSeason.end | date: "dd MMM" }}</span>
+    </div>
+  </div>
+</div>

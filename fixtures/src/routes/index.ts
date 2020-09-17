@@ -37,6 +37,16 @@ router.post("/api/fixturesbydate", async (req: Request, res: Response) => {
     }
   }
 
+  fixtures.fixtures.sort((a,b) => {
+    if(a.country === 'World') {
+      return -1;
+    }
+    if(b.country === 'World') {
+      return 1;
+    }
+    return (a.country < b.country) ? -1 : 1;
+  });
+
   return res.send(fixtures.fixtures);
 });
 

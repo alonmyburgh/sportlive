@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FixturesResponse } from '../../../country.model';
 import { FixtureService } from './fixture.service';
 import { interval, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fixture',
@@ -13,7 +14,7 @@ export class FixtureComponent implements OnInit, OnDestroy {
   updateSubscription: Subscription;
   timerSubscription: Subscription;
 
-  constructor(private fixtureService: FixtureService) {}
+  constructor(private fixtureService: FixtureService, private router: Router) {}
 
   ngOnDestroy(): void {
     if (this.updateSubscription) {
@@ -50,5 +51,9 @@ export class FixtureComponent implements OnInit, OnDestroy {
     const today = new Date();
     const d = new Date(date);
     return today.setHours(0, 0, 0, 0) === d.setHours(0, 0, 0, 0);
-  };
+  }
+
+  onMatchClicked = (fixtureId: number) => {
+    this.router.navigate([`/match/${fixtureId}`]);
+  }
 }

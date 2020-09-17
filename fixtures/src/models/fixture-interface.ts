@@ -31,6 +31,13 @@ export interface FixturesObj {
   };
 }
 
+export interface ResponseObj {
+  data: {
+    results: number;
+    response: any;
+  };
+}
+
 export interface DbFixture {
   country: string;
   leagueId: number;
