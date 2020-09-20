@@ -4,13 +4,14 @@ import { RouterModule } from '@angular/router';
 import { MatchComponent } from './match.component';
 import { MatchRoutingModule } from './match-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { StandingsComponent } from './standings/standings.component';
 
 @NgModule({
-  declarations: [MatchComponent],
+  declarations: [MatchComponent, StandingsComponent],
   imports: [
     RouterModule,
     MatchRoutingModule,
-    SharedModule,
+    SharedModule
   ],
 })
 export class MatchModule {}

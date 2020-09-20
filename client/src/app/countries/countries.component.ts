@@ -6,7 +6,6 @@ import {
   LeaguesByIdRequest,
   LeaguesResponse,
 } from './country.model';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { DataStorageService } from '../shared/data-storage.service';
 import { LeaguesService } from './leagues/leagues.service';
@@ -20,8 +19,6 @@ export class CountriesComponent implements OnInit, OnDestroy {
   countries: CountriesResponse[];
   leagues: LeaguesResponse[];
   isShowError: boolean;
-  faChevronUp = faChevronUp;
-  faChevronDown = faChevronDown;
   dateSubsc = new Subscription();
   leaguesSubsc = new Subscription();
   errorSubsc = new Subscription();
@@ -77,7 +74,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
 
   toggle = (countryCode: string) => {
     this.countries.forEach((element) => {
-      if (element.code === countryCode) {
+      if (element.country === countryCode) {
         if (!element.isExpand) {
           element.isLoading = true;
           const req = this.createLeagueByIdRequest(element);

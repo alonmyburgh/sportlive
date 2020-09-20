@@ -11,7 +11,7 @@
           <!-- Accordion card -->
           <div class="card wrapper c-h" *ngFor="let country of countries">
             <!-- Card header -->
-            <div class="z-depth-1 p-1rem" (click)="toggle(country.code)">
+            <div class="z-depth-1 p-1rem" (click)="toggle(country.country)">
               <a role="button">
                 <img src="{{country.flag}}" alt="{{country.country}}" class="mr-3" style="border-radius: 2rem;" />
                 <label class="country-label">{{country.country}}

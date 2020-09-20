@@ -1,6 +1,6 @@
 <div class="card card-image card-style" *ngFor="let league of leagues">
   <a role="button" (click)="onLeagueClicked(league.leagueId)">
-    <img src="{{ league.logo }}" alt="{{ league.name }}" class="mr-3" />
+    <img src="{{ league.logo }}" alt="{{ league.name }}" class="mr-3 league-icon" />
     <label class="league-label">{{ league.name }} </label>
   </a>
   <div style="margin-top: 1rem">

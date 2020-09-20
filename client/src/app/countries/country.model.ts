@@ -52,20 +52,7 @@ export class FixturesResponse {
     season: number;
     round: string;
   };
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean;
-    };
-  };
+  teams: Teams;
   goals: {
     home: number;
     away: number;
@@ -219,6 +206,21 @@ export class FixturesResponse {
       }[];
     }[];
   }[];
+}
+
+export class Teams {
+  home: {
+    id: number;
+    name: string;
+    logo: string;
+    winner: boolean;
+  };
+  away: {
+    id: number;
+    name: string;
+    logo: string;
+    winner: boolean;
+  };
 }
 
 export class LeaguesByIdRequest {

@@ -37,13 +37,13 @@ export class MatchComponent implements OnInit {
         .getPredictions(this.match.fixture.id)
         .pipe(catchError((error) => of(error))),
     ]).subscribe(([standings, predictions]) => {
-      if (typeof standings === typeof StandingsResponse) {
+      if (standings.ok === undefined) {
         this.standings = standings;
         if (this.standings && this.standings !== null) {
           this.numberOfTabs++;
         }
       }
-      if (typeof predictions === typeof PredictionsResponse) {
+      if (predictions.ok === undefined) {
         this.predictions = predictions;
       }
     });

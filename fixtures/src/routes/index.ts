@@ -38,10 +38,14 @@ router.post("/api/fixturesbydate", async (req: Request, res: Response) => {
   }
 
   fixtures.fixtures.sort((a,b) => {
-    if(a.country === 'World') {
+    if(a.country === 'World' || a.country === 'Spain'
+    || a.country === 'Germany' || a.country === 'France'
+    || a.country === 'Italy' || a.country === 'England') {
       return -1;
     }
-    if(b.country === 'World') {
+    if(b.country === 'World' || b.country === 'Spain'
+    || b.country === 'Germany' || b.country === 'France'
+    || b.country === 'Italy' || b.country === 'England') {
       return 1;
     }
     return (a.country < b.country) ? -1 : 1;

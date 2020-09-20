@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row" style="border-bottom: 1px solid #88888838;">
+    <div class="col-xs-12 col-sm-12 col-md-12 table-color mt-3 mb-3">
+      <span class="col-xs-6 col-sm-6 col-md-6">
+        <div class="col-xs-1 col-sm-3 col-md-2 d-inline-block text-center bold border-r" (click)="selectedFilter='all'" [ngClass]="{selectedFilter: selectedFilter==='all'}">
+          <span class="pointer">ALL</span>
+        </div>
+        <div class="col-xs-1 col-sm-2 col-md-2 d-inline-block text-center bold border-r" (click)="selectedFilter='home'" [ngClass]="{selectedFilter: selectedFilter==='home'}">
+          <span class="pointer">HOME</span>
+        </div>
+        <div class="col-xs-1 col-sm-2 col-md-2 d-inline-block text-center bold" (click)="selectedFilter='away'" [ngClass]="{selectedFilter: selectedFilter==='away'}">
+          <span class="pointer">AWAY</span>
+        </div>
+      </span>
+      <span class="btn-group float-right">
+        <span class="mr-3 bold">FORM</span>
+        <label class="switch">
+          <input type="checkbox" (click)="onFormToggle()">
+          <span class="slider round"></span>
+        </label>
+      </span>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <img class="img-fluid league-img" src="{{ standings.league.logo }}" />
+      <span class="col-xs-6 col-sm-5 col-md-4 league-text">
+        {{ standings.league.name }} {{ standings.league.season }}
+      </span>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <table class="table table-color mt-3">
+        <thead>
+          <tr>
+            <th scope="col" class="b-none text-center">#</th>
+            <th scope="col" class="b-none">Team</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">P</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">W</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">D</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">L</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">G</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">DIFF</th>
+            <th *ngIf="!isFormSelected" scope="col" class="b-none text-center">PTS</th>
+            <th *ngIf="isFormSelected" scope="col" class="b-none text-right">Latest</th>
+          </tr>
+        </thead>
+        <tbody class="tbody-text">
+          <tr *ngFor="let team of standings.league.standings[0]" [ngClass]="{selectedTeam: teams.home.id === team.team.id || teams.away.id === team.team.id}">
+            <th scope="row" class="b-none text-center">
+              <span class="circle" [ngClass]="{red: team.description&&team.description.indexOf('Relegation') > -1, green: team.description&&team.description.indexOf('Promotion - Champions') > -1, blue: team.description&&team.description.indexOf('Promotion - Europa') > -1}">{{team.rank}}</span>
+            </th>
+            <td class="b-none">
+              <img class="img-fluid team-img mr-2" src="{{team.team.logo}}" />
+              <span>{{team.team.name}}</span>
+            </td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.played : selectedFilter === 'away' ? team.away.played : team.all.played}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.win : selectedFilter === 'away' ? team.away.win : team.all.win}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.draw : selectedFilter === 'away' ? team.away.draw : team.all.draw}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.lose : selectedFilter === 'away' ? team.away.lose : team.all.lose}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.goals.for+':'+team.home.goals.against : selectedFilter === 'away' ? team.away.goals.for+':'+team.away.goals.against : team.all.goals.for+':'+team.all.goals.against}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? team.home.goals.for-team.home.goals.against : selectedFilter === 'away' ? team.away.goals.for-team.away.goals.against : team.goalsDiff}}</td>
+            <td *ngIf="!isFormSelected" class="text-center b-none">{{selectedFilter === 'home' ? (team.home.win * 3) + (team.home.draw * 1) : selectedFilter === 'away' ? (team.away.win * 3) + (team.away.draw * 1) : team.points}}</td>
+            <td *ngIf="isFormSelected" class="text-center b-none">
+              <div class="progress" style="min-width: 275px;">
+                <div *ngFor="let game of splitStr(team.form); let i = index" class="progress-bar" [ngClass]="{'bg-success': game==='W', 'bg-danger': game==='L', 'bg-secondary': game==='D'}" role="progressbar" style="width: 20%" aria-valuenow="20 * (i+1)" aria-valuemin="0" aria-valuemax="100">{{game}}</div>                
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-xs-12 col-sm-12 col-md-12 tbody-text mb-5">
+        In the event that two (or more) teams have an equal number of points, the following rules break the tie: 1. Goal difference 2. Goals scored
+      </div>
+    </div>
+  </div>
+</div>

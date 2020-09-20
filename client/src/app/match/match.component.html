@@ -108,7 +108,7 @@
   id="standings"
   role="tabpanel"
   aria-labelledby="standings">
-  standings component goes here
+  <app-standings [standings]="standings" [teams]="match.teams"></app-standings>
 </div>
 <div class="card card-image theme-dark tab-pane"
   *ngIf="activeTab==='matches'"
