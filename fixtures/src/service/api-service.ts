@@ -149,3 +149,31 @@ export const getPredictionsFromAPI = async (fixtureId: string) => {
   }
   return null;
 };
+
+export const getMediaFromAPI = async (query: string) => {
+  try {
+    const rsp = await axios.get(
+      `https://api.twitter.com/2/tweets/search/recent`,
+      {
+        headers: {
+          "content-type": "application/json",
+          "Authorization": process.env.TWITTER_TOKEN,
+        },
+        params: {
+          "query": query,
+          "max_results": 100,
+        },
+        timeout: 10000,
+      }
+    );
+      
+    if (rsp.data.meta.result_count == 0) {
+      return null;
+    }
+    
+    return rsp.data;    
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+};

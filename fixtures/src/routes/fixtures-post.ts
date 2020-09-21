@@ -11,7 +11,6 @@ const router = express.Router();
 router.post("/api/fixtures", async (req: Request, res: Response) => {
   const { leagueIds, date } = req.body;
   let response: LeaguesResponse[] = [];
-  const isTodayDate: boolean = getIsToday(date);
   const year = date.split("-")[0];
   const leagueIdArray: string[] = leagueIds.split(",");
 
@@ -21,81 +20,24 @@ router.post("/api/fixtures", async (req: Request, res: Response) => {
     if (value && value !== null) {
       response.push(JSON.parse(value));
     } else {
-      if (isTodayDate) {
-        let apiRsp = await getFixturesByLeagueId(leagueId, date, year);
-        if (apiRsp !== null && apiRsp.length > 0) {
-          let struct: LeaguesResponse = {
-            leagueId: apiRsp[0].league.id,
-            name: apiRsp[0].league.name,
-            logo: apiRsp[0].league.logo,
-            season: apiRsp[0].league.season,
-            fixtures: apiRsp,
-          };
+      let apiRsp = await getFixturesByLeagueId(leagueId, date, year);
+      if (apiRsp !== null && apiRsp.length > 0) {
+        let struct: LeaguesResponse = {
+          leagueId: apiRsp[0].league.id,
+          name: apiRsp[0].league.name,
+          logo: apiRsp[0].league.logo,
+          season: apiRsp[0].league.season,
+          fixtures: apiRsp,
+        };
 
-          await redisWrapper.client.set(
-            REDIS_KEY,
-            JSON.stringify(struct),
-            "EX",
-            60 * 2
-          );
+        await redisWrapper.client.set(
+          REDIS_KEY,
+          JSON.stringify(struct),
+          "EX",
+          60 * 2
+        );
 
-          response.push(struct);
-        }
-      } else {
-        let league = await League.findOne({
-          leagueId: Number(leagueId),
-          fixtureDate: date,
-        });
-
-        if (league && league !== null) {
-          let struct: LeaguesResponse = {
-            leagueId: league.leagueId,
-            name: league.name,
-            season: league.season,
-            logo: league.logo,
-            fixtures: league.fixtures,
-          };
-
-          await redisWrapper.client.set(
-            REDIS_KEY,
-            JSON.stringify(struct),
-            "EX",
-            60 * 2
-          );
-
-          response.push(struct);
-        } else {
-          let apiRsp = await getFixturesByLeagueId(leagueId, date, year);
-          if (apiRsp !== null && apiRsp.length > 0) {
-            let struct: LeaguesResponse = {
-              leagueId: apiRsp[0].league.id,
-              name: apiRsp[0].league.name,
-              season: apiRsp[0].league.season,
-              logo: apiRsp[0].league.logo,
-              fixtures: apiRsp,
-            };
-
-            let dbType = League.build({
-              fixtureDate: date,
-              fixtures: struct.fixtures,
-              leagueId: struct.leagueId,
-              logo: struct.logo,
-              name: struct.name,
-              season: struct.season,
-              lastUpdate: new Date(),
-            });
-            await dbType.save();
-
-            await redisWrapper.client.set(
-              REDIS_KEY,
-              JSON.stringify(struct),
-              "EX",
-              60 * 2
-            );
-
-            response.push(struct);
-          }
-        }
+        response.push(struct);
       }
     }
   }

@@ -86,7 +86,7 @@
   id="media"
   role="tabpanel"
   aria-labelledby="media-tab">
-  media component goes here
+  <app-media [teams]="match.teams"></app-media>
 </div>
 <div class="card card-image theme-dark tab-pane"
   *ngIf="activeTab==='statistics'"

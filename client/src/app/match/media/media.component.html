@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="text-center mt-5">
+    <div class="white font-weight-bold">Live Twitter feed</div>
+  </div>
+  <div class="text-center mt-3">
+    <span class="twitter-link">{{searchQuery}}</span>
+  </div>
+  <div class="mt-4" *ngIf="twits">
+    <div *ngFor="let tweet of twits.data" id="con">
+      <ngx-tweet tweetId="{{tweet.id}}"></ngx-tweet>
+    </div>    
+  </div>
+  <div class="text-center mt-10 mb-10">
+    <img src="https://ton.twimg.com/app_icons/oauth_application.png" class="img-size" />
+    <div class="white mt-3">
+      To share event-related information, use Twitter hashtags.
+    </div>
+  </div>
+</div>

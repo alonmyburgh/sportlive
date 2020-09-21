@@ -6,24 +6,26 @@ export class StandingsResponse {
     season: number;
     flag: string;
     logo: string;
-    standings: [{
-      rank: number;
-      team: {
-        id: number;
-        name: string;
-        logo: string;
-      };
-      points: number;
-      goalsDiff: number;
-      group: string;
-      form: string;
-      status: string;
-      description: string;
-      update: Date;
-      all: StandingsStats;
-      home: StandingsStats;
-      away: StandingsStats;
-    }[]];
+    standings: [
+      {
+        rank: number;
+        team: {
+          id: number;
+          name: string;
+          logo: string;
+        };
+        points: number;
+        goalsDiff: number;
+        group: string;
+        form: string;
+        status: string;
+        description: string;
+        update: Date;
+        all: StandingsStats;
+        home: StandingsStats;
+        away: StandingsStats;
+      }[]
+    ];
   };
 }
 
@@ -272,5 +274,19 @@ class TeamStats {
       away: number;
       total: number;
     };
+  };
+}
+
+export class MediaModel {
+  data: [
+    {
+      id: string;
+      text: string;
+    }
+  ];
+  meta: {
+    newest_id: string;
+    oldest_id: string;
+    result_count: number;
   };
 }

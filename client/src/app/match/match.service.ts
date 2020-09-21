@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { FixturesResponse } from '../countries/country.model';
-import { PredictionsResponse, StandingsResponse } from './match.model';
+import { MediaModel, PredictionsResponse, StandingsResponse } from './match.model';
 
 @Injectable()
 export class MatchService {
@@ -62,6 +62,22 @@ export class MatchService {
       .pipe(
         map((predictions: PredictionsResponse) => {
           return predictions;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  getTwitterMedia(query: string): Observable<MediaModel> {
+    const params = new HttpParams()
+      .set('query', query);
+
+    return this.http
+      .get<MediaModel>(this.baseUrl + '/api/media', { params })
+      .pipe(
+        map((media: MediaModel) => {
+          return media;
         }),
         catchError((error) => {
           return throwError(error);

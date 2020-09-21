@@ -33,6 +33,9 @@ const start = async () => {
   if (!process.env.NATS_CLUSTER_ID) {
     throw new Error("NATS_CLUSTER_ID must be defined");
   }
+  if (!process.env.TWITTER_TOKEN) {
+    throw new Error("TWITTER_TOKEN must be defined");
+  }
 
   try {
     await mongoose.connect(process.env.MONGO_URI, {
