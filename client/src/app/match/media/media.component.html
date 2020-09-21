@@ -5,8 +5,8 @@
   <div class="text-center mt-3">
     <span class="twitter-link">{{searchQuery}}</span>
   </div>
-  <div class="mt-4" *ngIf="twits">
-    <div *ngFor="let tweet of twits.data" id="con">
+  <div class="mt-4 center-tweet" *ngIf="twits">
+    <div *ngFor="let tweet of twits.data">
       <ngx-tweet tweetId="{{tweet.id}}"></ngx-tweet>
     </div>    
   </div>
